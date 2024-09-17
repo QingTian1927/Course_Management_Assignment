@@ -11,8 +11,6 @@ public class Register {
     private double mark;
     private int state;
 
-    // TODO: liên hệ mark với state (mark >= 5, state = 1)
-
     private boolean isValidMark(double mark) {
         return 0 <= mark && mark <= 10;
     }
@@ -67,7 +65,9 @@ public class Register {
         if (!isValidMark(mark)) {
             throw new IllegalArgumentException();
         }
+
         this.mark = mark;
+        this.state = (mark < 5) ? 0 : 1;
     }
 
     public int getState() {
