@@ -1,7 +1,6 @@
 package coursemanager.model;
 
 import coursemanager.util.Validation;
-
 import java.util.Date;
 
 public class Register {
@@ -25,10 +24,7 @@ public class Register {
         }
         this.mark = mark;
 
-        if (!Validation.isBooleanInt(state)) {
-            throw new IllegalArgumentException();
-        }
-        this.state = state;
+        this.state = (mark >= 5) ? 1 : 0;
     }
 
     public Register() {}
@@ -67,17 +63,18 @@ public class Register {
         }
 
         this.mark = mark;
-        this.state = (mark < 5) ? 0 : 1;
+        this.state = (mark >= 5) ? 1 : 0;
     }
 
     public int getState() {
         return state;
     }
-
-    public void setState(int state) {
-        if (!Validation.isBooleanInt(state)) {
-            throw new IllegalArgumentException();
-        }
-        this.state = state;
+    
+    public void displayRegistrationInfor() {
+    	  System.out.println("Course Code: " + ccode);
+    	  System.out.println("Student Code: " + scode);
+    	  System.out.println("Registration date " + bdate);
+    	  System.out.println("Mark: " + mark);
+    	  System.out.println("State: " + state);
     }
 }

@@ -102,6 +102,7 @@ public class Course {
         }
         this.registered = registered;
     }
+    
 
     public double getPrice() {
         return price;
@@ -113,4 +114,18 @@ public class Course {
         }
         this.price = price;
     }
+    
+    //Update Seat and Registered
+    public void updateSeatAndRegister(int seatChange, int courseChange) {
+		int newSeat = this.seats + seatChange;
+		int newRegistration = this.registered + courseChange;
+		
+		if (!isValidRegistered(newSeat, newRegistration)) {
+	        System.out.println("Registered students cannot exceed the available seats.");
+	    }
+
+
+	    this.seats = newSeat;
+	    this.registered = newRegistration;
+	}
 }
