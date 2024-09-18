@@ -1,6 +1,5 @@
 package coursemanager.model;
 
-import coursemanager.util.Validation;
 import java.util.Date;
 
 public class Register {
@@ -27,7 +26,8 @@ public class Register {
         this.state = (mark >= 5) ? 1 : 0;
     }
 
-    public Register() {}
+    public Register() {
+    }
 
     public String getCcode() {
         return ccode;
@@ -69,12 +69,12 @@ public class Register {
     public int getState() {
         return state;
     }
-    
+
     public void displayRegistrationInfor() {
-    	  System.out.println("Course Code: " + ccode);
-    	  System.out.println("Student Code: " + scode);
-    	  System.out.println("Registration date " + bdate);
-    	  System.out.println("Mark: " + mark);
-    	  System.out.println("State: " + state);
+        System.out.println("Course Code: " + ccode);
+        System.out.println("Student Code: " + scode);
+        System.out.println("Registration date " + bdate);
+        System.out.println("Mark: " + mark);
+        System.out.println("State: " + state);
     }
 }

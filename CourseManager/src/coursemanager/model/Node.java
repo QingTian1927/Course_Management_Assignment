@@ -1,17 +1,17 @@
 package coursemanager.model;
 
 public class Node<T> {
-    protected T info;
+    protected T data;
     protected Node<T> next;
 
     public Node() {}
 
-    public Node(T info, Node<T> next) {
-        this.info = info;
+    public Node(T data, Node<T> next) {
+        this.data = data;
         this.next = next;
     }
 
-    public Node(T info) {
-        this(info, null);
+    public Node(T data) {
+        this(data, null);
     }
 }
