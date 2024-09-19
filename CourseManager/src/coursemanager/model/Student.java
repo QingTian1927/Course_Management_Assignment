@@ -47,4 +47,13 @@ public class Student {
         }
         this.byear = byear;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "scode='" + scode + '\'' +
+                ", name='" + name + '\'' +
+                ", byear=" + byear +
+                '}';
+    }
 }

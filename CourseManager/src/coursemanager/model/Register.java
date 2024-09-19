@@ -70,7 +70,18 @@ public class Register {
         return state;
     }
 
-    public void displayRegistrationInfor() {
+    @Override
+    public String toString() {
+        return "Register{" +
+                "ccode='" + ccode + '\'' +
+                ", scode='" + scode + '\'' +
+                ", bdate=" + bdate +
+                ", mark=" + mark +
+                ", state=" + state +
+                '}';
+    }
+
+    public void displayRegistrationInfo() {
         System.out.println("Course Code: " + ccode);
         System.out.println("Student Code: " + scode);
         System.out.println("Registration date " + bdate);

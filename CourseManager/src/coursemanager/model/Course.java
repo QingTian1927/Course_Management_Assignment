@@ -36,7 +36,8 @@ public class Course {
         this.registered = registered;
     }
 
-    public Course() {}
+    public Course() {
+    }
 
     public String getCcode() {
         return ccode;
@@ -102,7 +103,7 @@ public class Course {
         }
         this.registered = registered;
     }
-    
+
 
     public double getPrice() {
         return price;
@@ -114,18 +115,32 @@ public class Course {
         }
         this.price = price;
     }
-    
-    //Update Seat and Registered
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "ccode='" + ccode + '\'' +
+                ", scode='" + scode + '\'' +
+                ", sname='" + sname + '\'' +
+                ", semester='" + semester + '\'' +
+                ", year='" + year + '\'' +
+                ", seats=" + seats +
+                ", registered=" + registered +
+                ", price=" + price +
+                '}';
+    }
+
     public void updateSeatAndRegister(int seatChange, int courseChange) {
-		int newSeat = this.seats + seatChange;
-		int newRegistration = this.registered + courseChange;
-		
-		if (!isValidRegistered(newSeat, newRegistration)) {
-	        System.out.println("Registered students cannot exceed the available seats.");
-	    }
+        int newSeat = this.seats + seatChange;
+        int newRegistration = this.registered + courseChange;
+
+        if (!isValidRegistered(newSeat, newRegistration)) {
+            System.out.println("Registered students cannot exceed the available seats.");
+        }
+
+        this.seats = newSeat;
+        this.registered = newRegistration;
+    }
 
 
-	    this.seats = newSeat;
-	    this.registered = newRegistration;
-	}
 }

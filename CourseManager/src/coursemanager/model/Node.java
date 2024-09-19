@@ -14,4 +14,12 @@ public class Node<T> {
     public Node(T data) {
         this(data, null);
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "data=" + data +
+                ", next=" + next +
+                '}';
+    }
 }
