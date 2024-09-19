@@ -1,7 +1,5 @@
 package coursemanager.model;
 
-import java.nio.file.Path;
-
 public abstract class CommonList<T> {
     protected Node<T> head;
     protected Node<T> tail;
@@ -197,8 +195,32 @@ public abstract class CommonList<T> {
         node.data = data;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("CommonList{ ");
+
+        Node<T> node = head;
+        while (node != null) {
+            sb.append(node.toString());
+            sb.append(", ");
+            node = node.next;
+        }
+        sb.append("}");
+
+        return sb.toString();
+    }
+
+    public void swap(Node<T> a, Node<T> b) {
+        T temp = a.data;
+        a.data = b.data;
+        b.data = temp;
+    }
+
+    // Hàm sắp xếp mặc định của list. Có thể có nhiều hàm sort khác nhau
+    // nhưng cái sort() này là cái chính.
+    public abstract CommonList<T> sort();
+
+    // Hàm hiển thị thông tin của list.
     public abstract void display();
-    
-    public abstract CommonList<T> readFile(Path path);
-    public abstract void saveFile(Path path, CommonList<T> data);
 }
