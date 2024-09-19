@@ -7,40 +7,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-public class RegisterManagement {
+public class RegisterManagement extends CommonList {
     private CourseList courses; // Custom linked list for courses
     private StudentList students; // Custom linked list for students
-
-    private Node<Register> registerHead;
-    private Node<Register> registerTail;
-
-    public RegisterManagement() {
-        registerHead = null;
-        registerTail = null;
-    }
+    
 
     // Add new register at the beginning (if we care about recent entries)
     public void addFirstRegister(Register register) {
-        Node<Register> newRegisterNode = new Node<>(register);
-        if (registerHead == null) {
-            registerHead = newRegisterNode;
-            registerTail = newRegisterNode;
-        } else {
-            newRegisterNode.next = registerHead;
-            registerHead = newRegisterNode;
-        }
+    	this.addFirst(register);
     }
+    
 
     // Add new register at the end
     public void addLastRegister(Register register) {
-        Node<Register> newRegisterNode = new Node<>(register);
-        if (registerHead == null) {
-            registerHead = newRegisterNode;
-            registerTail = newRegisterNode;
-        } else {
-            registerTail.next = newRegisterNode;
-            registerTail = newRegisterNode;
-        }
+        this.addLast(register);
     }
 
     // Method to register a course for a student
@@ -68,48 +48,12 @@ public class RegisterManagement {
         addFirstRegister(newRegistration);
         course.updateSeatAndRegister(-1, 1);
     }
+    
 
-    // Display the registration list
-    public void displayRegistration() {
-        if (registerHead == null) {
-            System.out.println("No registrations available.");
-            return;
-        }
-
-        Node<Register> current = registerHead;
-        while (current != null) {
-            current.data.displayRegistrationInfor();
-            System.out.println("---------------------");
-            current = current.next;
-        }
-    }
-
-    // Sort the registration list (ascending by ccode, then scode)
-    public void sortRegistrationList() {
-        if (registerHead == null) {
-            return;
-        }
-
-        for (Node<Register> i = registerHead; i != null; i = i.next) {
-            Node<Register> minNode = i;
-            for (Node<Register> j = i.next; j != null; j = j.next) {
-                if (minNode.data.getCcode().compareTo(j.data.getCcode()) > 0 ||
-                    (minNode.data.getCcode().equals(j.data.getCcode()) && minNode.data.getScode().compareTo(j.data.getScode()) > 0)) {
-                    minNode = j;
-                }
-            }
-
-            if (minNode != i) {
-                Register temp = i.data;
-                i.data = minNode.data;
-                minNode.data = temp;
-            }
-        }
-    }
 
     // Update the mark of a registration
     public void updateMark(String scode, String ccode, double newmark) {
-        Node<Register> current = registerHead;
+        Node<Register> current = head;
         while (current != null) {
             if (scode.equals(current.data.getScode()) && ccode.equals(current.data.getCcode())) {
                 current.data.setMark(newmark);
@@ -119,4 +63,42 @@ public class RegisterManagement {
         }
         System.out.println("Registration not found. Update mark failed!");
     }
+
+	@Override
+	public CommonList<Register> sort() {
+		if (head == null) {
+            return null;
+        }
+
+        for (Node<Register> i = head; i != null; i = i.next) {
+            Node<Register> minNode = i;
+            for (Node<Register> j = i.next; j != null; j = j.next) {
+                if (minNode.data.getCcode().compareTo(j.data.getCcode()) > 0 ||
+                    (minNode.data.getCcode().equals(j.data.getCcode()) && minNode.data.getScode().compareTo(j.data.getScode()) > 0)) {
+                    minNode = j;
+                }
+            }
+
+            if (minNode != i) {
+                swap(i, minNode);
+            }
+        }
+		return null;
+	}
+
+	@Override
+	public void display() {
+		// TODO Auto-generated method stub
+		if (head == null) {
+            System.out.println("No registrations available.");
+            return;
+        }
+
+        Node<Register> current = head;
+        while (current != null) {
+            current.data.displayRegistrationInfo();
+            System.out.println("---------------------");
+            current = current.next;
+        }
+	}
 }
