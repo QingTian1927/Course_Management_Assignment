@@ -2,12 +2,12 @@ package coursemanager.model;
 
 public class CourseList extends CommonList<Course> {
         
-        public void addLastCourse(Course course) {
-                this.addLast(course);
+        public void addLast(Course course) {
+                super.addLast(course);
         }
 
-        public void addFirstCourse(Course course) {
-                this.addFirst(course);
+        public void addFirst(Course course) {
+                super.addFirst(course);
         }
 
         public void insertAfterIndex(int k, Course course) {
@@ -16,7 +16,7 @@ public class CourseList extends CommonList<Course> {
 
         public void deleteToIndex(int k) {
                 if (k >= this.size()) {
-                        this.head = this.tail = null;
+                        this.clear();
                 } else {
                         this.head = this.getByIndex(k + 1);
                 }
@@ -25,7 +25,7 @@ public class CourseList extends CommonList<Course> {
         public Node<Course> searchByCcode(String Ccode) {
                 Node<Course> temp = this.head;
                 while (temp != null) {
-                        if (temp.data.getCcode() == Ccode) {
+                        if (temp.data.getCcode().equals(Ccode)) {
                                 return temp;
                         }
                         temp = temp.next;
@@ -38,7 +38,7 @@ public class CourseList extends CommonList<Course> {
                 CourseList a = new CourseList();
                 Node<Course> temp = this.head;
                 while (temp != null) {
-                        if (temp.data.getSname() == sname) {
+                        if (temp.data.getSname().equals(sname)) {
                                 a.addLast(temp.data);
                         }
                         temp = temp.next;
