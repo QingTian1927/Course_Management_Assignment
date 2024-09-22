@@ -13,6 +13,8 @@ public class Register {
         return 0 <= mark && mark <= 10;
     }
 
+    public Register() {}
+
     public Register(String ccode, String scode, Date bdate, double mark, int state) {
         this.ccode = ccode;
         this.scode = scode;
@@ -26,7 +28,8 @@ public class Register {
         this.state = (mark >= 5) ? 1 : 0;
     }
 
-    public Register() {
+    public Register(Register register) {
+        this(register.ccode, register.scode, (Date) register.bdate.clone(), register.mark, register.state);
     }
 
     public String getCcode() {

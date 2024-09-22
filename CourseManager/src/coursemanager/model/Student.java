@@ -9,6 +9,8 @@ public class Student {
         return byear >= 18;
     }
 
+    public Student() {}
+
     public Student(String scode, String name, int byear) {
         this.scode = scode;
         this.name = name;
@@ -19,7 +21,9 @@ public class Student {
         this.byear = byear;
     }
 
-    public Student() {}
+    public Student(Student student) {
+        this(student.scode, student.name, student.byear);
+    }
 
     public String getScode() {
         return scode;
