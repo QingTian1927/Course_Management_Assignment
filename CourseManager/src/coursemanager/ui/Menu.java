@@ -174,7 +174,7 @@ public class Menu{
         System.out.println("3. Display data");
         System.out.println("4. Save course list to file");
         System.out.println("5. Sort by scode and ccode");
-        System.out.println("6. Update mark by scode anf ccode");
+        System.out.println("6. Update mark by scode and ccode");
         System.out.println("0. Exit");
         System.out.print("Enter your choice: ");
     }
