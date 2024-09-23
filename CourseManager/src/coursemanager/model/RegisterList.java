@@ -20,7 +20,7 @@ public class RegisterList extends CommonList<Register> {
     // Method to register a course for a student
     public void registerCourse(String ccode, String scode) {
         Node<Course> courseNode = courseList.searchByCcode(ccode); // Search for the course by course code
-        Node<Student> studentNode = studentList.searchById(scode); // Search for the student by student code (ID)
+        Node<Student> studentNode = studentList.searchByScode(scode); // Search for the student by student code (ID)
 
         if (courseNode == null) {
             System.out.println("Course does not exist.");
