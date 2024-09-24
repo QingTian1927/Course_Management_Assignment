@@ -3,14 +3,26 @@ package coursemanager.model;
 public class CourseList extends CommonList<Course> {
 
     public void addLast(Course course) {
+        if (searchByCcode(course.getCcode()) != null) {
+            System.out.println("this course has been registered");
+            return;
+        }
         super.addLast(course);
     }
 
     public void addFirst(Course course) {
+        if (searchByCcode(course.getCcode()) != null) {
+            System.out.println("this course has been registered");
+            return;
+        }
         super.addFirst(course);
     }
 
     public void insertAfterIndex(int k, Course course) {
+        if (searchByCcode(course.getCcode()) != null) {
+            System.out.println("this course has been registered");
+            return;
+        }
         this.insert(k + 1, course);
     }
 
@@ -30,7 +42,6 @@ public class CourseList extends CommonList<Course> {
             }
             temp = temp.next;
         }
-        System.out.println("It not found");
         return null;
     }
 
