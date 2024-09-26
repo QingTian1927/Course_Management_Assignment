@@ -1,11 +1,16 @@
 package coursemanager.model;
 
+import coursemanager.io.DataManager;
+
 import java.util.Date;
 
 public class RegisterList extends CommonList<Register> {
-    private CourseList courseList; // Custom linked list for courses
-    private StudentList studentList; // Custom linked list for students
+    private final DataManager dataManager;
 
+    public RegisterList() {
+        super();
+        this.dataManager = DataManager.getInstance();
+    }
 
     // Add new register at the beginning (if we care about recent entries)
     public void addFirst(Register register) {
@@ -19,8 +24,8 @@ public class RegisterList extends CommonList<Register> {
 
     // Method to register a course for a student
     public void registerCourse(String ccode, String scode) {
-        Node<Course> courseNode = courseList.searchByCcode(ccode); // Search for the course by course code
-        Node<Student> studentNode = studentList.searchById(scode); // Search for the student by student code (ID)
+        final Node<Course> courseNode = dataManager.getCourseList().searchByCcode(ccode); // Search for the course by course code
+        final Node<Student> studentNode = dataManager.getStudentList().searchByScode(scode); // Search for the student by student code (ID)
 
         if (courseNode == null) {
             System.out.println("Course does not exist.");
