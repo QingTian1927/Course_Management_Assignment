@@ -1,5 +1,11 @@
 package coursemanager.model;
 
+import coursemanager.io.DataParser;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public abstract class CommonList<T> {
     protected Node<T> head;
     protected Node<T> tail;
@@ -209,6 +215,40 @@ public abstract class CommonList<T> {
         sb.append("}");
 
         return sb.toString();
+    }
+
+    public void readFile(File file, DataParser<T> dataParser) throws IOException {
+        if (!file.exists()) {
+            return;
+        }
+
+        this.clear();
+        String line = null;
+
+        try (
+                FileReader fr = new FileReader(file);
+                BufferedReader br = new BufferedReader(fr)
+        ) {
+            while ((line = br.readLine()) != null) {
+                T obj = dataParser.parse(line);
+                this.addLast(obj);
+            }
+        }
+    }
+
+    public void saveFile(File file) throws IOException {
+        Path path = file.toPath();
+
+        try (
+                BufferedWriter bw = Files.newBufferedWriter(path)
+        ) {
+            Node<T> node = head;
+            while (node != null) {
+                bw.write(node.toString());
+                bw.newLine();
+                node = node.next;
+            }
+        }
     }
 
     public void swap(Node<T> a, Node<T> b) {
