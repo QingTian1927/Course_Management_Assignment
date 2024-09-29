@@ -55,4 +55,19 @@ public final class Validation {
         }
     }
 
+    public static int parseInt(String str) {
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    public static double parseDouble(String str) {
+        try {
+            return Double.parseDouble(str);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
 }
