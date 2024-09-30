@@ -4,10 +4,15 @@
  */
 package coursemanager.model;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import coursemanager.io.DataManager;
+import coursemanager.io.DataParser;
 import coursemanager.util.Formatter;
+import coursemanager.util.Validation;
 
 
 /**
@@ -136,4 +141,24 @@ public class StudentList extends CommonList<Student> {
         }
     }
 
+    public void load() throws IOException {
+        DataParser<Student> dataParser = new DataParser<>() {
+            @Override
+            public Student parse(String data) {
+                String[] properties = data.split(DataParser.PROPERTY_SEPARATOR);
+                if (properties.length != 3) {   // số thuộc tính trong Student
+                    return null;
+                }
+
+                String scode = properties[0].trim();
+                String name = properties[1].trim();
+                int byear = Validation.parseInt(properties[2].trim());
+
+                return new Student(scode, name, byear);
+            }
+        };
+
+        File file = new File(DataManager.STUDENT_SAVE_FILE);
+        this.readFile(file, dataParser);
+    }
 }
