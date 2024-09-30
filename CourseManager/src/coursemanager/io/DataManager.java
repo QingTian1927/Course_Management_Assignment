@@ -10,6 +10,10 @@ public final class DataManager {
     private static RegisterList registerList;
     private static StudentList studentList;
 
+    public static final String COURSE_SAVE_FILE = "courses.txt";
+    public static final String REGISTER_SAVE_FILE = "registers.txt";
+    public static final String STUDENT_SAVE_FILE = "students.txt";
+
     private DataManager() {
         courseList = new CourseList();
         registerList = new RegisterList();
