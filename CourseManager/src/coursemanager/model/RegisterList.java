@@ -1,7 +1,12 @@
 package coursemanager.model;
 
 import coursemanager.io.DataManager;
+import coursemanager.io.DataParser;
+import coursemanager.util.Validation;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RegisterList extends CommonList<Register> {
@@ -21,6 +26,67 @@ public class RegisterList extends CommonList<Register> {
     public void addLast(Register register) {
         super.addLast(register);
     }
+    
+    public void load() throws IOException {
+        DataParser<Register> dataParser = new DataParser<>() {
+            @Override
+            public Register parse(String data) {
+                String[] properties = data.split(",");
+                if (properties.length != 5) {
+                    return null; 
+                }
+
+                String ccode = properties[0].trim(); 
+                String scode = properties[1].trim();
+                
+                Date bdate;
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    bdate = dateFormat.parse(properties[2].trim()); 
+                } catch (Exception e) {
+                    System.out.println("Invalid date format: " + properties[2]);
+                    return null;
+                }
+
+                double mark;
+                try {
+                    mark = Double.parseDouble(properties[3].trim());
+                    if (mark < 0 || mark > 10) {
+                        System.out.println("Invalid mark: " + properties[3]);
+                        return null;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid mark format: " + properties[3]);
+                    return null;
+                }
+                
+                int state;
+                try {
+                    state = Integer.parseInt(properties[4].trim());
+                    if (!Validation.isBooleanInt(state)) {
+                        System.out.println("Invalid state: " + properties[4]);
+                        return null;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid state format: " + properties[4]);
+                    return null;
+                }
+
+               
+                return new Register(ccode, scode, bdate, mark, state);
+            }
+        };
+
+        File file = new File(DataManager.REGISTER_SAVE_FILE);
+
+     
+        this.readFile(file, dataParser); 
+    }
+    
+    public void saveData(File file) throws IOException{
+    	saveFile(file);
+    }
+
 
     // Method to register a course for a student
     public void registerCourse(String ccode, String scode) {

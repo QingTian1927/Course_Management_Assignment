@@ -2,6 +2,7 @@ package coursemanager.io;
 
 import coursemanager.model.CourseList;
 import coursemanager.model.RegisterList;
+import coursemanager.model.StudentList;
 
 public final class DataManager {
     private static DataManager instance = null;
