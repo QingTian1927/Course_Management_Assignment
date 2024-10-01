@@ -161,4 +161,8 @@ public class StudentList extends CommonList<Student> {
         File file = new File(DataManager.STUDENT_SAVE_FILE);
         this.readFile(file, dataParser);
     }
+
+    public void save() throws IOException {
+        this.saveFile(new File(DataManager.STUDENT_SAVE_FILE));
+    }
 }
