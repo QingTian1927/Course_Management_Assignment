@@ -56,14 +56,15 @@ public class StudentList extends CommonList<Student> {
         }
     }
 
+    //sao phai can 2 cai ham nay z
     public void addStudent(Student newStudent) {
         if (searchByScode(newStudent.getScode()) == null) {
             super.addLast(newStudent);
         } else {
             System.out.println("Duplicated Student Code");
         }
-    }
 
+    }
     @Override
     public CommonList<Student> sort() {
         for (Node<Student> p = head; p != null; p = p.next) {
