@@ -43,6 +43,11 @@ public final class Validation {
         }
     }
 
+    public static char getChar() {
+        Scanner sc = new Scanner(System.in);
+        return sc.next().charAt(0);
+    }
+
     public static double getDouble(){
         Scanner sc = new Scanner(System.in);
         while (true) {
