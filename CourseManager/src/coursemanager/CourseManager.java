@@ -13,7 +13,11 @@ import java.io.IOException;
 public class CourseManager {
 
     public static void main(String[] args) {
+        // Singleton cái chết
         DataManager dataManager = DataManager.getInstance();
+        dataManager.setCourseList(new CourseList());
+        dataManager.setRegisterList(new RegisterList());
+        dataManager.setStudentList(new StudentList());
 
         try {
             dataManager.getCourseList().load();
