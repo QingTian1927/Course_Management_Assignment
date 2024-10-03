@@ -1,5 +1,7 @@
 package coursemanager.model;
 
+import coursemanager.io.DataWriter;
+
 public class Student {
     private String scode;  // Student Code
     private String name;
@@ -9,7 +11,8 @@ public class Student {
         return byear >= 18;
     }
 
-    public Student() {}
+    public Student() {
+    }
 
     public Student(String scode, String name, int byear) {
         this.scode = scode;
@@ -63,15 +66,18 @@ public class Student {
 
 
     public String toDataString() {
-        return scode + ", " + name + ", " + byear;
+        return String.format(
+                "%s%s%s%s%d",
+                scode, DataWriter.PROPERTY_SEPARATOR,
+                name, DataWriter.PROPERTY_SEPARATOR,
+                byear
+        );
     }
 
-    
+
     public void displayStudentInfo() {
         System.out.println("Student Code: " + scode);
         System.out.println("Student Name: " + name);
         System.out.println("Student Age: " + byear);
-      ;
-
     }
 }

@@ -1,5 +1,7 @@
 package coursemanager.model;
 
+import coursemanager.io.DataWriter;
+
 import java.util.Date;
 
 public class Register {
@@ -93,12 +95,13 @@ public class Register {
     }
 
     public String toDataString() {
+        // what the fuck?
         return String.format(
-                "%s, %s, %s, %f, %d",
-                this.ccode,
-                this.scode,
-                this.bdate.toString(),
-                this.mark,
+                "%s%s%s%s%s%s%f%s%d",
+                this.ccode, DataWriter.PROPERTY_SEPARATOR,
+                this.scode, DataWriter.PROPERTY_SEPARATOR,
+                this.bdate.toString(), DataWriter.PROPERTY_SEPARATOR,
+                this.mark, DataWriter.PROPERTY_SEPARATOR,
                 this.state
         );
     }

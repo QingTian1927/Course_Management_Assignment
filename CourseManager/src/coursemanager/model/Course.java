@@ -1,5 +1,6 @@
 package coursemanager.model;
 
+import coursemanager.io.DataWriter;
 import coursemanager.util.Validation;
 
 public class Course {
@@ -150,15 +151,17 @@ public class Course {
     }
 
     public String toDataString() {
+        // T ko hối hận j hết
+
         return String.format(
-                "%s, %s, %s, %s, %s, %d, %d, %f",
-                this.ccode,
-                this.scode,
-                this.sname,
-                this.semester,
-                this.year,
-                this.seats,
-                this.registered,
+                "%s%s%s%s%s%s%s%s%s%s%d%s%d%s%f",
+                this.ccode, DataWriter.PROPERTY_SEPARATOR,
+                this.scode, DataWriter.PROPERTY_SEPARATOR,
+                this.sname, DataWriter.PROPERTY_SEPARATOR,
+                this.semester, DataWriter.PROPERTY_SEPARATOR,
+                this.year, DataWriter.PROPERTY_SEPARATOR,
+                this.seats, DataWriter.PROPERTY_SEPARATOR,
+                this.registered, DataWriter.PROPERTY_SEPARATOR,
                 this.price
         );
     }
