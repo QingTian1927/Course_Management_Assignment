@@ -19,13 +19,6 @@ public class CourseManager {
 	public static void main(String[] args) {
 		// Singleton cái chết
 		DataManager dataManager = DataManager.getInstance();
-		dataManager.setCourseList(new CourseList());
-		dataManager.setRegisterList(new RegisterList());
-		dataManager.setStudentList(new StudentList());
-
-		
-
-		
 
 		try {
 			dataManager.getCourseList().load();
@@ -143,7 +136,7 @@ public class CourseManager {
 				System.out.print("Enter subject name to search:");
 				String subjectName = Validation.getString();
 				CourseList searchResults = courseList.searchByName(subjectName);
-				if (searchResults.size() > 0) {
+				if (!searchResults.isEmpty()) {
 					System.out.println("Courses found:");
 					searchResults.display();
 				} else {
@@ -258,7 +251,7 @@ public class CourseManager {
 			case "3":
 				try {
 					registerList.save();
-					System.out.println("Save registed student successfully.");
+					System.out.println("Save registered student successfully.");
 				} catch (IOException e) {
 					System.out.println("[ERROR] Failed to save courses registration");
 				}
@@ -284,5 +277,4 @@ public class CourseManager {
 			}
 		}
 	}
-
 }
