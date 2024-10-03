@@ -37,6 +37,10 @@ public abstract class CommonList<T> {
     }
 
     public void addFirst(T data) {
+        if (data == null) {
+            return;
+        }
+
         Node<T> node = new Node<>(data);
 
         if (isEmpty()) {
@@ -50,6 +54,10 @@ public abstract class CommonList<T> {
     }
 
     public void addLast(T data) {
+        if (data == null) {
+            return;
+        }
+
         Node<T> node = new Node<>(data);
 
         if (isEmpty()) {

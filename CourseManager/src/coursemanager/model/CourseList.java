@@ -6,10 +6,15 @@ import coursemanager.util.Validation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class CourseList extends CommonList<Course> {
 
     public void addLast(Course course) {
+        if (course == null) {
+            return;
+        }
+
         if (searchByCcode(course.getCcode()) != null) {
             System.out.println("this course has been registered");
             return;
@@ -18,6 +23,10 @@ public class CourseList extends CommonList<Course> {
     }
 
     public void addFirst(Course course) {
+        if (course == null) {
+            return;
+        }
+
         if (searchByCcode(course.getCcode()) != null) {
             System.out.println("this course has been registered");
             return;
