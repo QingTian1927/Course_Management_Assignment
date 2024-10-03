@@ -91,4 +91,15 @@ public class Register {
         System.out.println("Mark: " + mark);
         System.out.println("State: " + state);
     }
+
+    public String toDataString() {
+        return String.format(
+                "%s, %s, %s, %f, %d",
+                this.ccode,
+                this.scode,
+                this.bdate.toString(),
+                this.mark,
+                this.state
+        );
+    }
 }

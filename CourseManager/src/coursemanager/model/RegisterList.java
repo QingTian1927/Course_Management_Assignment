@@ -70,8 +70,8 @@ public class RegisterList extends CommonList<Register> {
         this.readFile(file, dataParser);
     }
 
-    public void saveData(File file) throws IOException {
-        saveFile(file);
+    public void save() throws IOException {
+        this.saveFile(new File(DataManager.REGISTER_SAVE_FILE), Register::toDataString);
     }
 
 

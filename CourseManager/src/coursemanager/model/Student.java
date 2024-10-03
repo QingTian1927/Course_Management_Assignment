@@ -60,4 +60,8 @@ public class Student {
                 ", byear=" + byear +
                 '}';
     }
+
+    public String toDataString() {
+        return scode + ", " + name + ", " + byear;
+    }
 }

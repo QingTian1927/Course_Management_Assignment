@@ -148,4 +148,18 @@ public class Course {
                 ", price=" + price +
                 '}';
     }
+
+    public String toDataString() {
+        return String.format(
+                "%s, %s, %s, %s, %s, %d, %d, %f",
+                this.ccode,
+                this.scode,
+                this.sname,
+                this.semester,
+                this.year,
+                this.seats,
+                this.registered,
+                this.price
+        );
+    }
 }

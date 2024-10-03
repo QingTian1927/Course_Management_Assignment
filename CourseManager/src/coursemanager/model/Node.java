@@ -22,4 +22,8 @@ public class Node<T> {
                 ", next=" + next +
                 '}';
     }
+
+    public String toDataString() {
+        return data + ", " + next + "\n";
+    }
 }

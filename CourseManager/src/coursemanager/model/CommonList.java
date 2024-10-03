@@ -1,6 +1,7 @@
 package coursemanager.model;
 
 import coursemanager.io.DataParser;
+import coursemanager.io.DataWriter;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -244,7 +245,7 @@ public abstract class CommonList<T> {
         }
     }
 
-    public void saveFile(File file) throws IOException {
+    public void saveFile(File file, DataWriter<T> dataWriter) throws IOException {
         Path path = file.toPath();
 
         try (
@@ -252,7 +253,7 @@ public abstract class CommonList<T> {
         ) {
             Node<T> node = head;
             while (node != null) {
-                bw.write(node.toString());
+                bw.write(dataWriter.write(node.data));
                 bw.newLine();
                 node = node.next;
             }

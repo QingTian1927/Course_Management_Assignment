@@ -2,6 +2,7 @@ package coursemanager.model;
 
 import coursemanager.io.DataManager;
 import coursemanager.io.DataParser;
+import coursemanager.io.DataWriter;
 import coursemanager.util.Validation;
 
 import java.io.File;
@@ -147,6 +148,6 @@ public class CourseList extends CommonList<Course> {
     }
 
     public void save() throws IOException {
-        this.saveFile(new File(DataManager.COURSE_SAVE_FILE));
+        this.saveFile(new File(DataManager.COURSE_SAVE_FILE), Course::toDataString);
     }
 }

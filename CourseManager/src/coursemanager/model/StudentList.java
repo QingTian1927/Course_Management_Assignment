@@ -163,6 +163,6 @@ public class StudentList extends CommonList<Student> {
     }
 
     public void save() throws IOException {
-        this.saveFile(new File(DataManager.STUDENT_SAVE_FILE));
+        this.saveFile(new File(DataManager.STUDENT_SAVE_FILE), Student::toDataString);
     }
 }
