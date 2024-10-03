@@ -74,6 +74,17 @@ public class RegisterList extends CommonList<Register> {
         this.saveFile(new File(DataManager.REGISTER_SAVE_FILE), Register::toDataString);
     }
 
+    public Node<Register> findRegisteredStudent(String scode){
+    	Node<Register> current = head;
+    	
+    	while(current != null) {
+    		if(current.data.getScode().equals(scode)) {
+    			return current;
+    		}
+    		current = current.next;
+    	}
+    	return null; 
+    }
 
     // Method to register a course for a student
     public void registerCourse(String ccode, String scode) {
@@ -169,4 +180,5 @@ public class RegisterList extends CommonList<Register> {
             current = current.next;
         }
     }
+    
 }
