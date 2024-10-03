@@ -7,6 +7,7 @@ package coursemanager.model;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import coursemanager.util.Formatter;
+import coursemanager.io.DataManager;
 
 
 /**
@@ -132,5 +133,40 @@ public class StudentList extends CommonList<Student> {
             }
         }
     }
+    
+    public Node<Student> searchStudentByName(){
+        if(isEmpty()){
+            return  null;
+        }
+        String name = inputName();
+        Node<Student> p = head;
+        while(p!=null){
+            if(p.data.getName().equals(name)){
+                return p;
+            }p = p.next;
+        }
+        return null;
+    }
+    
+    public Node<Student> searchRegisteredCoursesByScode(DataManager manager){
+        String scode = inputScode();
+        Node <Student> foundStudent = searchByScode(scode);
+        
+        if(foundStudent != null){
+            CourseList courseList = manager.getCourseList();
+            RegisterList registerList = manager.getRegisterList();
+            
+            for(Node<Register> p = registerList.head; p != null; p = p.next){
+                if(p.data.getScode().equals(scode)){
+                    Node<Course> course = manager.getCourseList().searchByCcode(p.data.getCcode());
+                    System.out.println(course.toString());
+                }
+            }
+            return foundStudent;
+        }
+                        
+        return null;                
+    }
+    
         
 }
