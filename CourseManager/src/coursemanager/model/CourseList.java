@@ -1,8 +1,20 @@
 package coursemanager.model;
 
+import coursemanager.io.DataManager;
+import coursemanager.io.DataParser;
+import coursemanager.util.Validation;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+
 public class CourseList extends CommonList<Course> {
 
     public void addLast(Course course) {
+        if (course == null) {
+            return;
+        }
+
         if (searchByCcode(course.getCcode()) != null) {
             System.out.println("this course has been registered");
             return;
@@ -11,6 +23,10 @@ public class CourseList extends CommonList<Course> {
     }
 
     public void addFirst(Course course) {
+        if (course == null) {
+            return;
+        }
+
         if (searchByCcode(course.getCcode()) != null) {
             System.out.println("this course has been registered");
             return;
@@ -102,5 +118,35 @@ public class CourseList extends CommonList<Course> {
             System.out.println(temp.toString());
             temp = temp.next;
         }
+    }
+
+    public void load() throws IOException {
+        DataParser<Course> dataParser = new DataParser<>() {
+            @Override
+            public Course parse(String data) {
+                String[] properties = data.split(DataParser.PROPERTY_SEPARATOR);
+                if (properties.length != 8) {
+                    return null;
+                }
+
+                String ccode = properties[0].trim();
+                String scode = properties[1].trim();
+                String sname = properties[2].trim();
+                String semester = properties[3].trim();
+                String year = properties[4].trim();
+                int seats = Validation.parseInt(properties[5].trim());
+                int registered = Validation.parseInt(properties[6].trim());
+                double price = Validation.parseDouble(properties[7].trim());
+
+                return new Course(ccode, scode, sname, semester, year, seats, registered, price);
+            }
+        };
+
+        File file = new File(DataManager.COURSE_SAVE_FILE);
+        this.readFile(file, dataParser);
+    }
+
+    public void save() throws IOException {
+        this.saveFile(new File(DataManager.COURSE_SAVE_FILE));
     }
 }
