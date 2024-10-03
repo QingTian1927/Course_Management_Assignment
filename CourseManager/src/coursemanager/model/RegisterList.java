@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RegisterList extends CommonList<Register> {
+    public static final String REGISTER_DATE_FORMAT = "yyyy-MM-dd";
     private final DataManager dataManager;
 
     public RegisterList() {
@@ -42,7 +43,7 @@ public class RegisterList extends CommonList<Register> {
 
                 Date bdate;
                 try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(REGISTER_DATE_FORMAT);
                     bdate = dateFormat.parse(properties[2].trim());
                 } catch (ParseException e) {
                     System.out.println("Invalid date format: " + properties[2]);
