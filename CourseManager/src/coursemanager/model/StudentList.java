@@ -19,50 +19,50 @@ import coursemanager.util.Validation;
  * @author NgocHien-PC
  */
 public class StudentList extends CommonList<Student> {
-	private Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
 
-	public Student getStudentDetailsFromUser() {
-		// Prompt user for course details
-		System.out.println("Please enter the following student details:");
+    public Student getStudentDetailsFromUser() {
+        // Prompt user for course details
+        System.out.println("Please enter the following student details:");
 
-		String scode = inputScode();
+        String scode = inputScode();
 
-		String sname = inputName();
+        String sname = inputName();
 
-		int sbyear = inputByear();
+        int sbyear = inputByear();
 
-		return new Student(scode, sname, sbyear);
+        return new Student(scode, sname, sbyear);
 
-	}
+    }
 
-	public String inputScode() {
-		System.out.print("Enter student code: ");
-		String scode = sc.nextLine();
-		return Formatter.normalizeId(scode);
-	}
+    public String inputScode() {
+        System.out.print("Enter student code: ");
+        String scode = sc.nextLine();
+        return Formatter.normalizeId(scode);
+    }
 
-	public String inputName() {
-		System.out.print("Enter student name: ");
-		String name = sc.nextLine();
-		return Formatter.normalizeName(name);
-	}
+    public String inputName() {
+        System.out.print("Enter student name: ");
+        String name = sc.nextLine();
+        return Formatter.normalizeName(name);
+    }
 
-	public int inputByear() {
-		System.out.print("Enter birth year (positive integer): ");
-		while (true) {
-			try {
-				int byear = sc.nextInt();
-				sc.nextLine();
-				if (byear <= 0) {
-					throw new InputMismatchException();
-				}
-				return byear; // Return the valid birth year
-			} catch (InputMismatchException e) {
-				System.out.println("Input a positive integer.");
-				sc.nextLine(); // Clear the invalid input
-			}
-		}
-	}
+    public int inputByear() {
+        System.out.print("Enter birth year (positive integer): ");
+        while (true) {
+            try {
+                int byear = sc.nextInt();
+                sc.nextLine();
+                if (byear <= 0) {
+                    throw new InputMismatchException();
+                }
+                return byear; // Return the valid birth year
+            } catch (InputMismatchException e) {
+                System.out.println("Input a positive integer.");
+                sc.nextLine(); // Clear the invalid input
+            }
+        }
+    }
 
 
     public void addStudent() {
@@ -162,56 +162,57 @@ public class StudentList extends CommonList<Student> {
             }
         }
     }
-    
-    public Node<Student> searchStudentByName(){
-        if(isEmpty()){
-            return  null;
+
+    public Node<Student> searchStudentByName() {
+        if (isEmpty()) {
+            return null;
         }
         String name = inputName();
         Node<Student> p = head;
-        while(p!=null){
-            if(p.data.getName().equals(name)){
+        while (p != null) {
+            if (p.data.getName().equals(name)) {
                 return p;
-            }p = p.next;
+            }
+            p = p.next;
         }
         return null;
     }
-    
-    public Node<Student> searchRegisteredCoursesByScode(DataManager manager){
+
+    public Node<Student> searchRegisteredCoursesByScode(DataManager manager) {
         String scode = inputScode();
-        Node <Student> foundStudent = searchByScode(scode);
-        
-        if(foundStudent != null){
+        Node<Student> foundStudent = searchByScode(scode);
+
+        if (foundStudent != null) {
             CourseList courseList = manager.getCourseList();
             RegisterList registerList = manager.getRegisterList();
-            
-            for(Node<Register> p = registerList.head; p != null; p = p.next){
-                if(p.data.getScode().equals(scode)){
+
+            for (Node<Register> p = registerList.head; p != null; p = p.next) {
+                if (p.data.getScode().equals(scode)) {
                     Node<Course> course = manager.getCourseList().searchByCcode(p.data.getCcode());
                     System.out.println(course.toString());
                 }
             }
             return foundStudent;
         }
-                        
-        return null;                
+
+        return null;
     }
 
     public Node<Student> searchByName(String sname) {
-		Node<Student> result = null;
-		if (!this.isEmpty()) {
-			Node<Student> p = head;
-			while (p != null) {
-				if (p.data.getName().equals(sname)) {
-					result = p;
-					break;
-				}
-				p = p.next;
-			}
-		}
-		return result;
-	}
-    
+        Node<Student> result = null;
+        if (!this.isEmpty()) {
+            Node<Student> p = head;
+            while (p != null) {
+                if (p.data.getName().equals(sname)) {
+                    result = p;
+                    break;
+                }
+                p = p.next;
+            }
+        }
+        return result;
+    }
+
     public void load() throws IOException {
         DataParser<Student> dataParser = new DataParser<>() {
             @Override
