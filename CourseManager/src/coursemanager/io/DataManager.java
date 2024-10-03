@@ -10,9 +10,9 @@ public final class DataManager {
     private static RegisterList registerList = null;
     private static StudentList studentList = null;
 
-    public static final String COURSE_SAVE_FILE = "courses.txt";
-    public static final String REGISTER_SAVE_FILE = "registers.txt";
-    public static final String STUDENT_SAVE_FILE = "students.txt";
+    public static final String COURSE_SAVE_FILE = "data/courses.txt";
+    public static final String REGISTER_SAVE_FILE = "data/registers.txt";
+    public static final String STUDENT_SAVE_FILE = "data/students.txt";
 
     private DataManager() {}
 
@@ -24,15 +24,15 @@ public final class DataManager {
         return instance;
     }
 
-    public static void setCourseList(CourseList courseList) {
+    public void setCourseList(CourseList courseList) {
         DataManager.courseList = courseList;
     }
 
-    public static void setRegisterList(RegisterList registerList) {
+    public void setRegisterList(RegisterList registerList) {
         DataManager.registerList = registerList;
     }
 
-    public static void setStudentList(StudentList studentList) {
+    public void setStudentList(StudentList studentList) {
         DataManager.studentList = studentList;
     }
 
