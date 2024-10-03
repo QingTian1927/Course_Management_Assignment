@@ -1,7 +1,7 @@
 package coursemanager.model;
 
 public class Node<T> {
-    protected T data;
+    public T data;
     protected Node<T> next;
 
     public Node() {}

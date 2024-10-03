@@ -19,30 +19,51 @@ import coursemanager.util.Validation;
  * @author NgocHien-PC
  */
 public class StudentList extends CommonList<Student> {
-    Scanner sc = new Scanner(System.in);
+	private Scanner sc = new Scanner(System.in);
 
-    private String inputScode() {
-        String scode = sc.nextLine();
-        return Formatter.normalizeId(scode);
-    }
+	public Student getStudentDetailsFromUser() {
+		// Prompt user for course details
+		System.out.println("Please enter the following student details:");
 
-    private String inputName() {
-        String name = sc.nextLine();
-        return Formatter.normalizeName(name);
-    }
+		String scode = inputScode();
 
-    private int inputByear() {
-        while (true) {
-            try {
-                int byear = sc.nextInt();
-                if (byear <= 0) {
-                    throw new InputMismatchException();
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Input a positive integer");
-            }
-        }
-    }
+		String sname = inputName();
+
+		int sbyear = inputByear();
+
+		return new Student(scode, sname, sbyear);
+
+	}
+
+	public String inputScode() {
+		System.out.print("Enter student code: ");
+		String scode = sc.nextLine();
+		return Formatter.normalizeId(scode);
+	}
+
+	public String inputName() {
+		System.out.print("Enter student name: ");
+		String name = sc.nextLine();
+		return Formatter.normalizeName(name);
+	}
+
+	public int inputByear() {
+		System.out.print("Enter birth year (positive integer): ");
+		while (true) {
+			try {
+				int byear = sc.nextInt();
+				sc.nextLine();
+				if (byear <= 0) {
+					throw new InputMismatchException();
+				}
+				return byear; // Return the valid birth year
+			} catch (InputMismatchException e) {
+				System.out.println("Input a positive integer.");
+				sc.nextLine(); // Clear the invalid input
+			}
+		}
+	}
+
 
     public void addStudent() {
         String scode = inputScode();
@@ -84,7 +105,8 @@ public class StudentList extends CommonList<Student> {
             Node<Student> p = head;
 
             while (p != null) {
-                System.out.printf("%-5s%-15s%-3d\n", p.data.getScode(), p.data.getName(), p.data.getByear());
+                p.data.displayStudentInfo();
+                System.out.println("---------------------");
                 p = p.next;
             }
         }
@@ -175,6 +197,21 @@ public class StudentList extends CommonList<Student> {
         return null;                
     }
 
+    public Node<Student> searchByName(String sname) {
+		Node<Student> result = null;
+		if (!this.isEmpty()) {
+			Node<Student> p = head;
+			while (p != null) {
+				if (p.data.getName().equals(sname)) {
+					result = p;
+					break;
+				}
+				p = p.next;
+			}
+		}
+		return result;
+	}
+    
     public void load() throws IOException {
         DataParser<Student> dataParser = new DataParser<>() {
             @Override
