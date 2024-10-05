@@ -16,17 +16,18 @@ public final class Validation {
         return x == 0 || x == 1;
     }
 
-    public static int getInteger(int min, int max){
+    public static int getInteger(String msg, String err, int min, int max){
         Scanner sc = new Scanner(System.in);
         while (true){
             try {
-                int num = sc.nextInt();
+            	System.out.print(msg);
+                int num = Integer.parseInt(sc.nextLine());
                 if (num > max || num < min){
                     throw new NumberFormatException(); 
                 }
                 return num;
             }catch (NumberFormatException e){
-                System.out.println("Input invalid. Please input integer");
+                System.out.println(err);
             }
         }
     }
@@ -39,7 +40,7 @@ public final class Validation {
             if(!s.isEmpty()){
                 return s;
             }
-            System.out.println("Input invalid. Please input string");
+            System.out.println("Input invalid. Please input string.");
         }
     }
 
@@ -48,14 +49,18 @@ public final class Validation {
         return sc.next().charAt(0);
     }
 
-    public static double getDouble(){
+    public static double getDouble(String msg, String err, double min, double max){
         Scanner sc = new Scanner(System.in);
         while (true) {
             try {
-                double num = sc.nextDouble();
+            	System.out.print(msg);
+                double num = Double.parseDouble(sc.nextLine());
+                if (num < min || num > max) {
+                    throw new NumberFormatException(); 
+                }
                 return num;
             }catch (NumberFormatException e){
-                System.out.println("Input invalid. Please input double");
+                System.out.println(err);
             }
         }
     }

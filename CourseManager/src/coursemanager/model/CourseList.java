@@ -14,7 +14,7 @@ public class CourseList extends CommonList<Course> {
         System.out.println("Please enter the following course details:");
 
         System.out.print("Enter course code: ");
-        String ccode = Validation.getString();
+        String ccode = Validation.getString().toUpperCase();
 
         System.out.print("Enter course short code: ");
         String scode = Validation.getString();
@@ -28,12 +28,9 @@ public class CourseList extends CommonList<Course> {
         System.out.print("Enter year: ");
         String year = Validation.getString();
 
-        System.out.print("Enter seat: ");
-        int seats = Validation.getInteger(0, Integer.MAX_VALUE);
-        System.out.print("Enter number of registered student for this course: ");
-        int registered = Validation.getInteger(0, Integer.MAX_VALUE);
-        System.out.print("Enter price of the course: ");
-        double price = Validation.getDouble();
+        int seats = Validation.getInteger("Enter seat: ", "Seat must be greater than 0", 0, Integer.MAX_VALUE);
+        int registered = Validation.getInteger("Enter number of registered student for this course: ", "Registered number of student must be greater than 0 and lower than the number of seats.", 0, seats);
+        double price = Validation.getDouble("Enter price of the course: ", "Price should be from 0 to 1000000 or in valid type.", 0, 1000000);
 
         return new Course(ccode, scode, sname, semester, year, seats, registered, price);
     }
@@ -63,7 +60,7 @@ public class CourseList extends CommonList<Course> {
         if (k >= this.size()) {
             this.clear();
         } else {
-            this.head = this.getByIndex(k + 1);
+            this.head = this.getByIndex(k);
         }
     }
 
@@ -95,13 +92,22 @@ public class CourseList extends CommonList<Course> {
     }
 
     public void deleteByCcode(String Ccode) {
-        if (this.head == null) {
-            System.out.println("No course to delete");
+    	if (this.head == null) {
+            System.out.println("No course to delete.");
+            return; 
         }
-        if (this.searchByCcode(Ccode).data.getRegistered() == 0) {
-            this.delete(this.searchByCcode(Ccode));
+        Node<Course> courseFound = this.searchByCcode(Ccode);
+        
+        if (courseFound == null) {
+           System.out.println("Course not found.");
+           return;
+        }
+        
+        if(courseFound.data.getRegistered() == 0) {
+        	this.delete(courseFound);
+        	System.out.println("Course deleted successfully.");
         } else {
-            System.out.println("this course has been registered");
+        	System.out.println("This course has been registered and cannot be deleted.");
         }
     }
 
