@@ -80,8 +80,10 @@ public class CourseManager {
 			switch (choice) {
 			case "1":
 				Course newCourse1 = courseList.getCourseDetailsFromUser();
-				courseList.addLast(newCourse1);
-				System.out.println("Course added successfully.");
+                                if(newCourse1 != null){
+                                    courseList.addLast(newCourse1);
+                                    System.out.println("Course registered successfully");
+                                }
 				break;
 			case "2":
 				courseList.display();
@@ -151,8 +153,7 @@ public class CourseManager {
 	}
 
 	public static void manageStudents(DataManager dataManager) {
-		StudentList studentList = dataManager.getStudentList();
-		RegisterList registerList = dataManager.getRegisterList();
+		StudentList studentList = dataManager.getStudentList();		
 		boolean isManaging = true;
 
 		while (isManaging) {
@@ -161,9 +162,8 @@ public class CourseManager {
 
 			switch (choice) {
 			case "1":
-				Student student = studentList.getStudentDetailsFromUser();
-				studentList.addStudent(student);
-				System.out.println("Student added successfully.");
+				//Student student = studentList.getStudentDetailsFromUser();
+				studentList.addStudent();				
 				break;
 			case "2":
 				studentList.display();
@@ -208,16 +208,12 @@ public class CourseManager {
 				}
 				break; 
 			case "7":
-				String stuCode = studentList.inputScode().toUpperCase(); 
-				Node<Register> registeredStudent = registerList.findRegisteredStudent(stuCode);
-				if (registeredStudent != null) {
-					// If the student is found, print its information using the toString method (so
-					// I
-					// want to declare data to be public)
-					System.out.println(registeredStudent.data.toString());
-				} else {
-					System.out.println("No registered student found with code: " + stuCode);
-				}
+				CourseList courseListRegisteredByStudent = studentList.searchRegisteredCoursesByScode(dataManager);
+                                if(!courseListRegisteredByStudent.isEmpty()){
+                                    System.out.println("List of Courses Registered by Student:");
+                                   courseListRegisteredByStudent.display(); 
+                                }
+                                
 				break;
 			case "0":
 				isManaging = false;

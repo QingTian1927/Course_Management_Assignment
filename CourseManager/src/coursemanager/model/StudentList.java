@@ -6,9 +6,8 @@ package coursemanager.model;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
-
+import java.time.LocalDate;
 import coursemanager.io.DataManager;
 import coursemanager.io.DataParser;
 import coursemanager.util.Formatter;
@@ -20,19 +19,19 @@ import coursemanager.util.Validation;
 public class StudentList extends CommonList<Student> {
 	private Scanner sc = new Scanner(System.in);
 
-	public Student getStudentDetailsFromUser() {
-		// Prompt user for course details
-		System.out.println("Please enter the following student details:");
-
-		String scode = inputScode().toUpperCase();
-
-		String sname = inputName();
-
-		int sbyear = inputByear();
-
-		return new Student(scode, sname, sbyear);
-
-	}
+//	public Student getStudentDetailsFromUser() {
+//		// Prompt user for course details
+//		System.out.println("Please enter the following student details:");
+//
+//		String scode = inputScode().toUpperCase();
+//
+//		String sname = inputName();
+//
+//		int sbyear = inputByear();
+//
+//		return new Student(scode, sname, sbyear);
+//
+//	}
 
 	public String inputScode() {
 		System.out.print("Enter student code: ");
@@ -47,9 +46,9 @@ public class StudentList extends CommonList<Student> {
 	}
 
 	public int inputByear() {
-
+                int currentYear = LocalDate.now().getYear();
 		int byear = Validation.getInteger("Enter birth year (positive integer): ",
-				"Student's age must be from 18 to 99", 18, 99);
+				"Student's age must be from 18 to 99", currentYear - 99, currentYear - 18);
 
 		return byear; 
 
@@ -57,11 +56,12 @@ public class StudentList extends CommonList<Student> {
 
 	public void addStudent() {
 		String scode = inputScode();
-		String name = inputName();
-		int byear = inputByear();
+		
 		if (searchByScode(scode) == null) {
-			Student newStudent = new Student(scode, name, byear);
-			super.addLast(newStudent);
+                    String name = inputName();
+                    int byear = inputByear();
+                    Student newStudent = new Student(scode, name, byear);
+                    super.addLast(newStudent);
 		} else {
 			System.out.println("Duplicated Student Code");
 		}
@@ -151,7 +151,7 @@ public class StudentList extends CommonList<Student> {
 					temp.next = null;
 					System.out.println("Student Code deleted successfully.");
 					return;
-				}
+				} p = p.next;
 			}
 		}
 		System.out.println("Student not found.");
@@ -172,24 +172,26 @@ public class StudentList extends CommonList<Student> {
 		return null;
 	}
 
-	public Node<Student> searchRegisteredCoursesByScode(DataManager manager) {
+	public CourseList searchRegisteredCoursesByScode(DataManager manager) {
 		String scode = inputScode();
 		Node<Student> foundStudent = searchByScode(scode);
-
+                CourseList courseList = new CourseList();
+                
 		if (foundStudent != null) {
-			CourseList courseList = manager.getCourseList();
+			
 			RegisterList registerList = manager.getRegisterList();
 
 			for (Node<Register> p = registerList.head; p != null; p = p.next) {
 				if (p.data.getScode().equals(scode)) {
 					Node<Course> course = manager.getCourseList().searchByCcode(p.data.getCcode());
-					System.out.println(course.toString());
+					courseList.addLast(course.data);
 				}
-			}
-			return foundStudent;
-		}
+			}if(courseList.isEmpty()){
+                            System.out.println("No course registered by student with " + scode);
+                        }			
+		}else System.out.println("No registered student found with code: " + scode);
 
-		return null;
+		return courseList;
 	}
 
 	public Node<Student> searchByName(String sname) {
@@ -208,21 +210,18 @@ public class StudentList extends CommonList<Student> {
 	}
 
 	public void load() throws IOException {
-		DataParser<Student> dataParser = new DataParser<>() {
-			@Override
-			public Student parse(String data) {
-				String[] properties = data.split(DataParser.PROPERTY_SEPARATOR);
-				if (properties.length != 3) { // số thuộc tính trong Student
-					return null;
-				}
-
-				String scode = properties[0].trim();
-				String name = properties[1].trim();
-				int byear = Validation.parseInt(properties[2].trim());
-
-				return new Student(scode, name, byear);
-			}
-		};
+		DataParser<Student> dataParser = (String data) -> {
+                    String[] properties = data.split(DataParser.PROPERTY_SEPARATOR);
+                    if (properties.length != 3) { // số thuộc tính trong Student
+                        return null;
+                    }
+                    
+                    String scode = properties[0].trim();
+                    String name = properties[1].trim();
+                    int byear = Validation.parseInt(properties[2].trim());
+                    
+                    return new Student(scode, name, byear);
+                };
 
 		File file = new File(DataManager.STUDENT_SAVE_FILE);
 		this.readFile(file, dataParser);
