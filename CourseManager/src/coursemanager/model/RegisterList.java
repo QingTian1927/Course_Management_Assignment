@@ -33,41 +33,38 @@ public class RegisterList extends CommonList<Register> {
     }
 
     public void load() throws IOException {
-        DataParser<Register> dataParser = new DataParser<>() {
-            @Override
-            public Register parse(String data) {
-                String[] properties = data.split(DataParser.PROPERTY_SEPARATOR);
-                if (properties.length != 5) {
-                    return null;
-                }
-
-                String ccode = properties[0].trim();
-                String scode = properties[1].trim();
-
-                LocalDate bdate;
-                try {
-                    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(REGISTER_DATE_FORMAT);;
-                    bdate = LocalDate.parse(properties[2].trim(), dateFormat);
-                } catch (DateTimeParseException e) {
-                    System.out.println("Invalid date format: " + properties[2]);
-                    return null;
-                }
-
-                String markString = properties[3].trim().replace(",", ".");
-                double mark = Double.parseDouble(markString);
-                if (mark < 0 || mark > 10) {
-                    System.out.println("Invalid mark: " + properties[3]);
-                    return null;
-                }
-
-                int state = Integer.parseInt(properties[4].trim());
-                if (!Validation.isBooleanInt(state)) {
-                    System.out.println("Invalid state: " + properties[4]);
-                    return null;
-                }
-
-                return new Register(ccode, scode, bdate, mark, state);
+        DataParser<Register> dataParser = (String data) -> {
+            String[] properties = data.split(DataParser.PROPERTY_SEPARATOR);
+            if (properties.length != 5) {
+                return null;
             }
+            
+            String ccode = properties[0].trim();
+            String scode = properties[1].trim();
+            
+            LocalDate bdate;
+            try {
+                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(REGISTER_DATE_FORMAT);;
+                bdate = LocalDate.parse(properties[2].trim(), dateFormat);
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format: " + properties[2]);
+                return null;
+            }
+            
+            String markString = properties[3].trim().replace(",", ".");
+            double mark = Double.parseDouble(markString);
+            if (mark < 0 || mark > 10) {
+                System.out.println("Invalid mark: " + properties[3]);
+                return null;
+            }
+            
+            int state = Integer.parseInt(properties[4].trim());
+            if (!Validation.isBooleanInt(state)) {
+                System.out.println("Invalid state: " + properties[4]);
+                return null;
+            }
+            
+            return new Register(ccode, scode, bdate, mark, state);
         };
 
         File file = new File(DataManager.REGISTER_SAVE_FILE);
@@ -105,6 +102,7 @@ public class RegisterList extends CommonList<Register> {
     // Method to register a course for a student
     public void registerCourse(String ccode, String scode) {
         final Node<Course> courseNode = dataManager.getCourseList().searchByCcode(ccode); // Search for the course by course code
+
         final Node<Student> studentNode = dataManager.getStudentList().searchByScode(scode); // Search for the student by student code (ID)
         
         if(findRegisteredCourse(ccode) != null && findRegisteredStudent(scode) != null) {
@@ -112,10 +110,12 @@ public class RegisterList extends CommonList<Register> {
         	return;
         }
 
+
         if (courseNode == null) {
             System.out.println("Course does not exist.");
             return;
         }
+        final Node<Student> studentNode = dataManager.getStudentList().searchByScode(scode); // Search for the student by student code (ID)
 
         if (studentNode == null) {
             System.out.println("Student does not exist.");

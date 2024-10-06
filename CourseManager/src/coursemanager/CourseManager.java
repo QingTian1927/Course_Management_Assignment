@@ -80,8 +80,10 @@ public class CourseManager {
 			switch (choice) {
 			case "1":
 				Course newCourse1 = courseList.getCourseDetailsFromUser();
-				courseList.addLast(newCourse1);
-				System.out.println("Course added successfully.");
+                                if(newCourse1 != null){
+                                    courseList.addLast(newCourse1);
+                                    System.out.println("Course registered successfully");
+                                }
 				break;
 			case "2":
 				courseList.display();
@@ -112,7 +114,8 @@ public class CourseManager {
 				courseList.deleteByCcode(ccodetoDelete);
 				break;
 			case "6":
-				courseList.sort();
+				CourseList sortedList = courseList.sort();
+                                sortedList.display();
 				System.out.println("Courses sorted by code successfully.");
 				break;
 			case "7":
@@ -151,8 +154,7 @@ public class CourseManager {
 	}
 
 	public static void manageStudents(DataManager dataManager) {
-		StudentList studentList = dataManager.getStudentList();
-		RegisterList registerList = dataManager.getRegisterList();
+		StudentList studentList = dataManager.getStudentList();		
 		boolean isManaging = true;
 
 		while (isManaging) {
@@ -161,9 +163,12 @@ public class CourseManager {
 
 			switch (choice) {
 			case "1":
-				Student student = studentList.getStudentDetailsFromUser();
-				studentList.addStudent(student);
-				System.out.println("Student added successfully.");
+				//Student student = studentList.getStudentDetailsFromUser();
+				Student newStudent = studentList.getStudentDetailsFromUser();	
+                                if(newStudent != null){
+                                    studentList.addLast(newStudent);
+                                    System.out.println("Add new student successfully");
+                                }
 				break;
 			case "2":
 				studentList.display();
@@ -196,28 +201,22 @@ public class CourseManager {
 				break;
 			case "6":
 				String studName = studentList.inputName();
-				Node<Student> foundStudentNode2 = studentList.searchByName(studName);
+				StudentList foundStudent = studentList.searchByName(studName);
 
-				if (foundStudentNode2 != null) {
-					// If the student is found, print its information using the toString method (so
-					// I
-					// want to declare data to be public)
-					System.out.println(foundStudentNode2.data.toString());
+				if (!foundStudent.isEmpty()) {
+                                    System.out.println("Students found: ");
+					foundStudent.display();
 				} else {
-					System.out.println("No course found with code: " + foundStudentNode2);
+					System.out.println("No student found with input name: " + studName);
 				}
 				break; 
 			case "7":
-				String stuCode = studentList.inputScode().toUpperCase(); 
-				Node<Register> registeredStudent = registerList.findRegisteredStudent(stuCode);
-				if (registeredStudent != null) {
-					// If the student is found, print its information using the toString method (so
-					// I
-					// want to declare data to be public)
-					System.out.println(registeredStudent.data.toString());
-				} else {
-					System.out.println("No registered student found with code: " + stuCode);
-				}
+				CourseList courseListRegisteredByStudent = studentList.searchRegisteredCoursesByScode(dataManager);
+                                if(!courseListRegisteredByStudent.isEmpty()){
+                                    System.out.println("List of Courses Registered by Student:");
+                                   courseListRegisteredByStudent.display(); 
+                                }
+                                
 				break;
 			case "0":
 				isManaging = false;

@@ -11,10 +11,13 @@ import java.util.Arrays;
 
 public class CourseList extends CommonList<Course> {
     public Course getCourseDetailsFromUser() {
-        System.out.println("Please enter the following course details:");
-
-        System.out.print("Enter course code: ");
-        String ccode = Validation.getString().toUpperCase();
+        System.out.println("Please enter the following course details:");                      
+            System.out.print("Enter course code: ");
+            String ccode = Validation.getString().toUpperCase();
+            if(searchByCcode(ccode) != null){               
+            System.out.println("this course has been registered");
+                return null;
+            }
 
         System.out.print("Enter course short code: ");
         String scode = Validation.getString();
@@ -26,7 +29,7 @@ public class CourseList extends CommonList<Course> {
         String semester = Validation.getString();
 
         System.out.print("Enter year: ");
-        String year = Validation.getString();
+        String year = Validation.getStringYear();
 
         int seats = Validation.getInteger("Enter seat: ", "Seat must be greater than 0", 0, Integer.MAX_VALUE);
         int registered = Validation.getInteger("Enter number of registered student for this course: ", "Registered number of student must be greater than 0 and lower than the number of seats.", 0, seats);
@@ -36,6 +39,18 @@ public class CourseList extends CommonList<Course> {
     }
 
 
+    public void addLast(Course course) {
+        if (course == null) {
+            return;
+        }
+
+        if (searchByCcode(course.getCcode()) != null) {
+            System.out.println("this course has been registered");
+            return;
+        }
+        super.addLast(course);
+    }
+    
     public void addFirst(Course course) {
         if (course == null) {
             return;
@@ -79,12 +94,12 @@ public class CourseList extends CommonList<Course> {
         CourseList a = new CourseList();
         Node<Course> temp = this.head;
         while (temp != null) {
-            if (temp.data.getSname().equals(sname)) {
+            if (temp.data.getSname().toLowerCase().contains(sname.toLowerCase())) {
                 a.addLast(temp.data);
             }
             temp = temp.next;
         }
-        return a;
+        return a.sort();
     }
 
     public void save() throws IOException {
@@ -111,7 +126,7 @@ public class CourseList extends CommonList<Course> {
         }
     }
 
-    public CommonList<Course> sort() {
+    public CourseList sort() {
         CourseList a = new CourseList();
         if (this.head == null) {
             return a;
@@ -125,7 +140,7 @@ public class CourseList extends CommonList<Course> {
         while (p != null) {
             Node<Course> q = p.next;
             while (q != null) {
-                if (p.data.getCcode().compareTo(q.data.getCcode()) < 0) {
+                if (p.data.getCcode().compareTo(q.data.getCcode()) > 0) {
                     this.swap(p, q);
                 }
                 q = q.next;
@@ -149,25 +164,22 @@ public class CourseList extends CommonList<Course> {
     }
 
     public void load() throws IOException {
-        DataParser<Course> dataParser = new DataParser<>() {
-            @Override
-            public Course parse(String data) {
-                String[] properties = data.split(DataParser.PROPERTY_SEPARATOR);
-                if (properties.length != 8) {
-                    return null;
-                }
-
-                String ccode = properties[0].trim();
-                String scode = properties[1].trim();
-                String sname = properties[2].trim();
-                String semester = properties[3].trim();
-                String year = properties[4].trim();
-                int seats = Validation.parseInt(properties[5].trim());
-                int registered = Validation.parseInt(properties[6].trim());
-                double price = Validation.parseDouble(properties[7].trim());
-
-                return new Course(ccode, scode, sname, semester, year, seats, registered, price);
+        DataParser<Course> dataParser = (String data) -> {
+            String[] properties = data.split(DataParser.PROPERTY_SEPARATOR);
+            if (properties.length != 8) {
+                return null;
             }
+            
+            String ccode = properties[0].trim();
+            String scode = properties[1].trim();
+            String sname = properties[2].trim();
+            String semester = properties[3].trim();
+            String year = properties[4].trim();
+            int seats = Validation.parseInt(properties[5].trim());
+            int registered = Validation.parseInt(properties[6].trim());
+            double price = Validation.parseDouble(properties[7].trim());
+            
+            return new Course(ccode, scode, sname, semester, year, seats, registered, price);
         };
 
 

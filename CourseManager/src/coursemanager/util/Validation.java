@@ -1,5 +1,6 @@
 package coursemanager.util;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public final class Validation {
     private Validation() {}
@@ -44,6 +45,27 @@ public final class Validation {
         }
     }
 
+    public static boolean isNumber(String s){
+        int length = s.length();
+        for(int i = 0; i < length; i++){
+            if(!Character.isDigit(s.charAt(i))){
+                return false;
+            }
+        }return true;                
+    }
+    
+    public static String getStringYear(){
+        int currentYear = LocalDate.now().getYear();
+        String s;
+        while(true){
+            s = getString();
+            if(isNumber(s) && Integer.parseInt(s) <= currentYear){
+                return s;
+            }System.out.println("Please enter a valid number!");
+            System.out.print("Enter year: ");
+        }
+    }
+    
     public static char getChar() {
         Scanner sc = new Scanner(System.in);
         return sc.next().charAt(0);
