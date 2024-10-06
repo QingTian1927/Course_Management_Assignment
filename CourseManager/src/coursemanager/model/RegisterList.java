@@ -86,10 +86,31 @@ public class RegisterList extends CommonList<Register> {
         }
         return null;
     }
+    
+    public Node<Register> findRegisteredCourse(String ccode) {
+        Node<Register> current = head;
+
+        while (current != null) {
+            if (current.data.getCcode().equals(ccode)) {
+                return current;
+            }
+            current = current.next;
+        }
+        return null;
+    }
 
     // Method to register a course for a student
     public void registerCourse(String ccode, String scode) {
         final Node<Course> courseNode = dataManager.getCourseList().searchByCcode(ccode); // Search for the course by course code
+
+        final Node<Student> studentNode = dataManager.getStudentList().searchByScode(scode); // Search for the student by student code (ID)
+        
+        if(findRegisteredCourse(ccode) != null && findRegisteredStudent(scode) != null) {
+        	System.out.println("Studen " + scode + " has already registered for the course " + ccode);
+        	return;
+        }
+
+
         if (courseNode == null) {
             System.out.println("Course does not exist.");
             return;
