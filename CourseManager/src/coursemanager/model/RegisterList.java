@@ -8,6 +8,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 public class RegisterList extends CommonList<Register> {
@@ -41,16 +44,17 @@ public class RegisterList extends CommonList<Register> {
                 String ccode = properties[0].trim();
                 String scode = properties[1].trim();
 
-                Date bdate;
+                LocalDate bdate;
                 try {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat(REGISTER_DATE_FORMAT);
-                    bdate = dateFormat.parse(properties[2].trim());
-                } catch (ParseException e) {
+                    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(REGISTER_DATE_FORMAT);;
+                    bdate = LocalDate.parse(properties[2].trim(), dateFormat);
+                } catch (DateTimeParseException e) {
                     System.out.println("Invalid date format: " + properties[2]);
                     return null;
                 }
 
-                double mark = Double.parseDouble(properties[3].trim());
+                String markString = properties[3].trim().replace(",", ".");
+                double mark = Double.parseDouble(markString);
                 if (mark < 0 || mark > 10) {
                     System.out.println("Invalid mark: " + properties[3]);
                     return null;
@@ -110,7 +114,7 @@ public class RegisterList extends CommonList<Register> {
             return;
         }
 
-        Date today = new Date();
+        LocalDate today = LocalDate.now();
         Register newRegistration = new Register(ccode, scode, today, 0, 0);
         addFirst(newRegistration);
 
@@ -125,6 +129,7 @@ public class RegisterList extends CommonList<Register> {
         while (current != null) {
             if (scode.equals(current.data.getScode()) && ccode.equals(current.data.getCcode())) {
                 current.data.setMark(newmark);
+                System.out.println("Mark Updated successfully.");
                 return;
             }
             current = current.next;

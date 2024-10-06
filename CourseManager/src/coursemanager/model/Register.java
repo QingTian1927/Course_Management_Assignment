@@ -2,12 +2,13 @@ package coursemanager.model;
 
 import coursemanager.io.DataWriter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Register {
     private String ccode;  // Course Code
     private String scode;  // Student Code
-    private Date bdate;  // Registration Date;
+    private LocalDate bdate;  // Registration Date;
     private double mark;
     private int state;
 
@@ -17,7 +18,7 @@ public class Register {
 
     public Register() {}
 
-    public Register(String ccode, String scode, Date bdate, double mark, int state) {
+    public Register(String ccode, String scode, LocalDate bdate, double mark, int state) {
         this.ccode = ccode;
         this.scode = scode;
         this.bdate = bdate;
@@ -31,7 +32,7 @@ public class Register {
     }
 
     public Register(Register register) {
-        this(register.ccode, register.scode, (Date) register.bdate.clone(), register.mark, register.state);
+        this(register.ccode, register.scode, register.bdate, register.mark, register.state);
     }
 
     public String getCcode() {
@@ -50,11 +51,11 @@ public class Register {
         this.scode = scode;
     }
 
-    public Date getBdate() {
+    public LocalDate getBdate() {
         return bdate;
     }
 
-    public void setBdate(Date bdate) {
+    public void setBdate(LocalDate bdate) {
         this.bdate = bdate;
     }
 

@@ -14,227 +14,221 @@ import coursemanager.io.DataParser;
 import coursemanager.util.Formatter;
 import coursemanager.util.Validation;
 
-
 /**
  * @author NgocHien-PC
  */
 public class StudentList extends CommonList<Student> {
-    private Scanner sc = new Scanner(System.in);
+	private Scanner sc = new Scanner(System.in);
 
-    public Student getStudentDetailsFromUser() {
-        // Prompt user for course details
-        System.out.println("Please enter the following student details:");
+	public Student getStudentDetailsFromUser() {
+		// Prompt user for course details
+		System.out.println("Please enter the following student details:");
 
-        String scode = inputScode();
+		String scode = inputScode().toUpperCase();
 
-        String sname = inputName();
+		String sname = inputName();
 
-        int sbyear = inputByear();
+		int sbyear = inputByear();
 
-        return new Student(scode, sname, sbyear);
+		return new Student(scode, sname, sbyear);
 
-    }
+	}
 
-    public String inputScode() {
-        System.out.print("Enter student code: ");
-        String scode = sc.nextLine();
-        return Formatter.normalizeId(scode);
-    }
+	public String inputScode() {
+		System.out.print("Enter student code: ");
+		String scode = Validation.getString();
+		return Formatter.normalizeId(scode);
+	}
 
-    public String inputName() {
-        System.out.print("Enter student name: ");
-        String name = sc.nextLine();
-        return Formatter.normalizeName(name);
-    }
+	public String inputName() {
+		System.out.print("Enter student name: ");
+		String name = Validation.getString();
+		return Formatter.normalizeName(name);
+	}
 
-    public int inputByear() {
-        System.out.print("Enter birth year (positive integer): ");
-        while (true) {
-            try {
-                int byear = sc.nextInt();
-                sc.nextLine();
-                if (byear <= 0) {
-                    throw new InputMismatchException();
-                }
-                return byear; // Return the valid birth year
-            } catch (InputMismatchException e) {
-                System.out.println("Input a positive integer.");
-                sc.nextLine(); // Clear the invalid input
-            }
-        }
-    }
+	public int inputByear() {
 
+		int byear = Validation.getInteger("Enter birth year (positive integer): ",
+				"Student's age must be from 18 to 99", 18, 99);
 
-    public void addStudent() {
-        String scode = inputScode();
-        String name = inputName();
-        int byear = inputByear();
-        if (searchByScode(scode) == null) {
-            Student newStudent = new Student(scode, name, byear);
-            super.addLast(newStudent);
-        } else {
-            System.out.println("Duplicated Student Code");
-        }
-    }
+		return byear; 
 
-    public void addStudent(Student newStudent) {
-        if (searchByScode(newStudent.getScode()) == null) {
-            super.addLast(newStudent);
-        } else {
-            System.out.println("Duplicated Student Code");
-        }
-    }
+	}
 
-    @Override
-    public CommonList<Student> sort() {
-        for (Node<Student> p = head; p != null; p = p.next) {
-            for (Node<Student> q = p.next; q != null; q = q.next) {
-                if (p.data.getScode().compareTo(q.data.getScode()) < 0) {
-                    Student t = p.data;
-                    p.data = q.data;
-                    q.data = t;
-                }
-            }
-        }
-        return this;
-    }
+	public void addStudent() {
+		String scode = inputScode();
+		String name = inputName();
+		int byear = inputByear();
+		if (searchByScode(scode) == null) {
+			Student newStudent = new Student(scode, name, byear);
+			super.addLast(newStudent);
+		} else {
+			System.out.println("Duplicated Student Code");
+		}
+	}
 
-    @Override
-    public void display() {
-        if (!this.isEmpty()) {
-            Node<Student> p = head;
+	public void addStudent(Student newStudent) {
+		if (searchByScode(newStudent.getScode()) == null) {
+			super.addLast(newStudent);
+		} else {
+			System.out.println("Duplicated Student Code");
+		}
+	}
 
-            while (p != null) {
-                p.data.displayStudentInfo();
-                System.out.println("---------------------");
-                p = p.next;
-            }
-        }
-    }
+	@Override
+	public CommonList<Student> sort() {
+		for (Node<Student> p = head; p != null; p = p.next) {
+			for (Node<Student> q = p.next; q != null; q = q.next) {
+				if (p.data.getScode().compareTo(q.data.getScode()) < 0) {
+					Student t = p.data;
+					p.data = q.data;
+					q.data = t;
+				}
+			}
+		}
+		return this;
+	}
 
-    public Node<Student> searchByScode() {
-        String scode = inputScode();
-        Node<Student> result = null;
-        if (!this.isEmpty()) {
-            Node<Student> p = head;
-            while (p != null) {
-                if (p.data.getScode().equals(scode)) {
-                    result = p;
-                    break;
-                }
-                p = p.next;
-            }
-        }
-        return result;
-    }
+	@Override
+	public void display() {
+		if (!this.isEmpty()) {
+			Node<Student> p = head;
 
-    public Node<Student> searchByScode(String scode) {
-        Node<Student> result = null;
-        if (!this.isEmpty()) {
-            Node<Student> p = head;
-            while (p != null) {
-                if (p.data.getScode().equals(scode)) {
-                    result = p;
-                    break;
-                }
-                p = p.next;
-            }
-        }
-        return result;
-    }
+			while (p != null) {
+				p.data.displayStudentInfo();
+				System.out.println("---------------------");
+				p = p.next;
+			}
+		}
+	}
 
-    public void deleteByScode() {
-        String scode = inputScode();
-        if (searchByScode(scode) != null) {
-            if (head.data.getScode().equals(scode)) {
-                Node<Student> p = head;
-                head = head.next;
-                p.next = null;
-                return;
-            }
-            Node<Student> p = head;
-            while (p.next != null) {
-                if (p.next.data.getScode().equals(scode)) {
-                    Node<Student> temp = p.next;
-                    p.next = p.next.next;
-                    temp.next = null;
-                }
-            }
-        }
-    }
+	public Node<Student> searchByScode() {
+		String scode = inputScode();
+		Node<Student> result = null;
+		if (!this.isEmpty()) {
+			Node<Student> p = head;
+			while (p != null) {
+				if (p.data.getScode().equals(scode)) {
+					result = p;
+					break;
+				}
+				p = p.next;
+			}
+		}
+		return result;
+	}
 
-    public Node<Student> searchStudentByName() {
-        if (isEmpty()) {
-            return null;
-        }
-        String name = inputName();
-        Node<Student> p = head;
-        while (p != null) {
-            if (p.data.getName().equals(name)) {
-                return p;
-            }
-            p = p.next;
-        }
-        return null;
-    }
+	public Node<Student> searchByScode(String scode) {
+		Node<Student> result = null;
+		if (!this.isEmpty()) {
+			Node<Student> p = head;
+			while (p != null) {
+				if (p.data.getScode().equals(scode)) {
+					result = p;
+					break;
+				}
+				p = p.next;
+			}
+		}
+		return result;
+	}
 
-    public Node<Student> searchRegisteredCoursesByScode(DataManager manager) {
-        String scode = inputScode();
-        Node<Student> foundStudent = searchByScode(scode);
+	public void deleteByScode() {
+		String scode = inputScode().toUpperCase();
+		if (searchByScode(scode) != null) {
+			if (head.data.getScode().equals(scode)) {
+				Node<Student> p = head;
+				head = head.next;
+				p.next = null;
+				System.out.println("Student Code deleted successfully.");
+				return;
+			}
+			Node<Student> p = head;
+			while (p.next != null) {
+				if (p.next.data.getScode().equals(scode)) {
+					Node<Student> temp = p.next;
+					p.next = p.next.next;
+					temp.next = null;
+					System.out.println("Student Code deleted successfully.");
+					return;
+				}
+			}
+		}
+		System.out.println("Student not found.");
+	}
 
-        if (foundStudent != null) {
-            CourseList courseList = manager.getCourseList();
-            RegisterList registerList = manager.getRegisterList();
+	public Node<Student> searchStudentByName() {
+		if (isEmpty()) {
+			return null;
+		}
+		String name = inputName();
+		Node<Student> p = head;
+		while (p != null) {
+			if (p.data.getName().equals(name)) {
+				return p;
+			}
+			p = p.next;
+		}
+		return null;
+	}
 
-            for (Node<Register> p = registerList.head; p != null; p = p.next) {
-                if (p.data.getScode().equals(scode)) {
-                    Node<Course> course = manager.getCourseList().searchByCcode(p.data.getCcode());
-                    System.out.println(course.toString());
-                }
-            }
-            return foundStudent;
-        }
+	public Node<Student> searchRegisteredCoursesByScode(DataManager manager) {
+		String scode = inputScode();
+		Node<Student> foundStudent = searchByScode(scode);
 
-        return null;
-    }
+		if (foundStudent != null) {
+			CourseList courseList = manager.getCourseList();
+			RegisterList registerList = manager.getRegisterList();
 
-    public Node<Student> searchByName(String sname) {
-        Node<Student> result = null;
-        if (!this.isEmpty()) {
-            Node<Student> p = head;
-            while (p != null) {
-                if (p.data.getName().equals(sname)) {
-                    result = p;
-                    break;
-                }
-                p = p.next;
-            }
-        }
-        return result;
-    }
+			for (Node<Register> p = registerList.head; p != null; p = p.next) {
+				if (p.data.getScode().equals(scode)) {
+					Node<Course> course = manager.getCourseList().searchByCcode(p.data.getCcode());
+					System.out.println(course.toString());
+				}
+			}
+			return foundStudent;
+		}
 
-    public void load() throws IOException {
-        DataParser<Student> dataParser = new DataParser<>() {
-            @Override
-            public Student parse(String data) {
-                String[] properties = data.split(DataParser.PROPERTY_SEPARATOR);
-                if (properties.length != 3) {   // số thuộc tính trong Student
-                    return null;
-                }
+		return null;
+	}
 
-                String scode = properties[0].trim();
-                String name = properties[1].trim();
-                int byear = Validation.parseInt(properties[2].trim());
+	public Node<Student> searchByName(String sname) {
+		Node<Student> result = null;
+		if (!this.isEmpty()) {
+			Node<Student> p = head;
+			while (p != null) {
+				if (p.data.getName().equals(sname)) {
+					result = p;
+					break;
+				}
+				p = p.next;
+			}
+		}
+		return result;
+	}
 
-                return new Student(scode, name, byear);
-            }
-        };
+	public void load() throws IOException {
+		DataParser<Student> dataParser = new DataParser<>() {
+			@Override
+			public Student parse(String data) {
+				String[] properties = data.split(DataParser.PROPERTY_SEPARATOR);
+				if (properties.length != 3) { // số thuộc tính trong Student
+					return null;
+				}
 
-        File file = new File(DataManager.STUDENT_SAVE_FILE);
-        this.readFile(file, dataParser);
-    }
+				String scode = properties[0].trim();
+				String name = properties[1].trim();
+				int byear = Validation.parseInt(properties[2].trim());
 
-    public void save() throws IOException {
-        this.saveFile(new File(DataManager.STUDENT_SAVE_FILE), Student::toDataString);
-    }
+				return new Student(scode, name, byear);
+			}
+		};
+
+		File file = new File(DataManager.STUDENT_SAVE_FILE);
+		this.readFile(file, dataParser);
+	}
+
+	public void save() throws IOException {
+		this.saveFile(new File(DataManager.STUDENT_SAVE_FILE), Student::toDataString);
+	}
 }

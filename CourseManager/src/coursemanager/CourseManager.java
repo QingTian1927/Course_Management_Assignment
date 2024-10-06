@@ -97,7 +97,7 @@ public class CourseManager {
 				break;
 			case "4":
 				System.out.print("Enter course code to search: ");
-				String ccodetoSearch = Validation.getString();
+				String ccodetoSearch = Validation.getString().toUpperCase();
 				Node<Course> foundCourseNode = courseList.searchByCcode(ccodetoSearch);
 
 				if (foundCourseNode != null) {
@@ -108,7 +108,7 @@ public class CourseManager {
 				break;
 			case "5":
 				System.out.print("Enter course code to delete: ");
-				String ccodetoDelete = Validation.getString();
+				String ccodetoDelete = Validation.getString().toUpperCase();
 				courseList.deleteByCcode(ccodetoDelete);
 				break;
 			case "6":
@@ -121,16 +121,14 @@ public class CourseManager {
 				System.out.println("Course added successfully.");
 				break;
 			case "8":
-				System.out.print("Enter a position to add after: ");
-				int k = Validation.getInteger(0, courseList.size() - 1);
+				int k = Validation.getInteger("Enter a position to add after: ", "Your index must be lower than the numbre of course or in valid type.", 0, courseList.size() - 1);
 				Course afterCourse = courseList.getCourseDetailsFromUser();
 				courseList.insertAfterIndex(k, afterCourse);
 				break;
 			case "9":
-				System.out.print("Enter a position to delete: ");
-				int deletePosition = Validation.getInteger(0, courseList.size() - 1);
+				int deletePosition = Validation.getInteger("Enter a position to delete to: ", "Position must be lower than the number of course in valid type.",0, courseList.size() - 1);
 				courseList.deleteToIndex(deletePosition);
-				System.out.println("Course at position " + deletePosition + " deleted successfully.");
+				System.out.println("Course deleted successfully.");
 				break;
 			case "10":
 				System.out.print("Enter subject name to search:");
@@ -180,20 +178,21 @@ public class CourseManager {
 				}
 				break;
 			case "4":
-				String scodetoSearch = studentList.inputScode();
+				String scodetoSearch = studentList.inputScode().toUpperCase();
 				Node<Student> foundStudentNode1 = studentList.searchByScode(scodetoSearch);
 
 				if (foundStudentNode1 != null) {
 					// If the student is found, print its information using the toString method (so
 					// I
 					// want to declare data to be public)
-					System.out.println(foundStudentNode1.data.toString());
+					foundStudentNode1.data.displayStudentInfo();
 				} else {
 					System.out.println("No course found with code: " + foundStudentNode1);
 				}
 				break;
 			case "5":
 				studentList.deleteByScode();
+				
 				break;
 			case "6":
 				String studName = studentList.inputName();
@@ -209,7 +208,7 @@ public class CourseManager {
 				}
 				break; 
 			case "7":
-				String stuCode = studentList.inputScode(); 
+				String stuCode = studentList.inputScode().toUpperCase(); 
 				Node<Register> registeredStudent = registerList.findRegisteredStudent(stuCode);
 				if (registeredStudent != null) {
 					// If the student is found, print its information using the toString method (so
@@ -240,9 +239,9 @@ public class CourseManager {
 			switch (choice) {
 			case "1":
 				System.out.print("Enter course code to register: ");
-				String ccode = Validation.getString();
+				String ccode = Validation.getString().toUpperCase();
 				System.out.print("Enter student code to register: ");
-				String scode = Validation.getString();
+				String scode = Validation.getString().toUpperCase();
 				registerList.registerCourse(ccode, scode);
 				break;
 			case "2":
@@ -258,15 +257,15 @@ public class CourseManager {
 				break;
 			case "4":
 				registerList.sort();
-				System.out.println("Registration sorted by code successfully.");
+				System.out.println("After Sorted: ");
+				registerList.display();
 				break;
 			case "5":
 				System.out.print("Enter course code to update mark: ");
-				String ccodeUpdate = Validation.getString();
+				String ccodeUpdate = Validation.getString().toUpperCase();
 				System.out.print("Enter student code to update mark: ");
-				String scodeUpdate = Validation.getString();
-				System.out.print("Enter mark you want to update: ");
-				double mark = Validation.getDouble();
+				String scodeUpdate = Validation.getString().toUpperCase();
+				double mark = Validation.getDouble("Enter mark you want to update: ", "Mark must be in range 0 to 10", 0, 10);
 				registerList.updateMark(scodeUpdate, ccodeUpdate, mark);
 				break;
 			case "0":
