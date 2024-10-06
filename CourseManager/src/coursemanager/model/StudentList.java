@@ -19,19 +19,21 @@ import coursemanager.util.Validation;
 public class StudentList extends CommonList<Student> {
 	private Scanner sc = new Scanner(System.in);
 
-//	public Student getStudentDetailsFromUser() {
-//		// Prompt user for course details
-//		System.out.println("Please enter the following student details:");
-//
-//		String scode = inputScode().toUpperCase();
-//
-//		String sname = inputName();
-//
-//		int sbyear = inputByear();
-//
-//		return new Student(scode, sname, sbyear);
-//
-//	}
+	public Student getStudentDetailsFromUser() {
+		// Prompt user for course details
+		System.out.println("Please enter the following student details:");
+
+		String scode = inputScode();
+                if (searchByScode(scode) == null) {
+                    String name = inputName();
+                    int byear = inputByear();
+                    return new Student(scode, name, byear);
+                    
+		} else {
+			System.out.println("Duplicated Student Code");
+		}
+		return null;
+	}
 
 	public String inputScode() {
 		System.out.print("Enter student code: ");
@@ -52,41 +54,27 @@ public class StudentList extends CommonList<Student> {
 
 		return byear; 
 
-	}
-
-	public void addStudent() {
-		String scode = inputScode();
-		
-		if (searchByScode(scode) == null) {
-                    String name = inputName();
-                    int byear = inputByear();
-                    Student newStudent = new Student(scode, name, byear);
-                    super.addLast(newStudent);
-		} else {
-			System.out.println("Duplicated Student Code");
-		}
-	}
-
-	public void addStudent(Student newStudent) {
-		if (searchByScode(newStudent.getScode()) == null) {
-			super.addLast(newStudent);
-		} else {
-			System.out.println("Duplicated Student Code");
-		}
-	}
+	}	
 
 	@Override
-	public CommonList<Student> sort() {
-		for (Node<Student> p = head; p != null; p = p.next) {
+	public StudentList sort() {
+            StudentList list = new StudentList();
+            if (this.head == null) {
+                return list;
+            }
+            Node<Student> temp = this.head;
+            while (temp != null) {
+                list.addLast(temp.data);
+                temp = temp.next;
+            }
+		for (Node<Student> p = list.head; p != null; p = p.next) {
 			for (Node<Student> q = p.next; q != null; q = q.next) {
-				if (p.data.getScode().compareTo(q.data.getScode()) < 0) {
-					Student t = p.data;
-					p.data = q.data;
-					q.data = t;
+				if (p.data.getScode().compareTo(q.data.getScode()) > 0) {
+					swap(p,q);
 				}
 			}
 		}
-		return this;
+		return list;
 	}
 
 	@Override
@@ -100,23 +88,7 @@ public class StudentList extends CommonList<Student> {
 				p = p.next;
 			}
 		}
-	}
-
-	public Node<Student> searchByScode() {
-		String scode = inputScode();
-		Node<Student> result = null;
-		if (!this.isEmpty()) {
-			Node<Student> p = head;
-			while (p != null) {
-				if (p.data.getScode().equals(scode)) {
-					result = p;
-					break;
-				}
-				p = p.next;
-			}
-		}
-		return result;
-	}
+	}	
 
 	public Node<Student> searchByScode(String scode) {
 		Node<Student> result = null;
@@ -157,20 +129,6 @@ public class StudentList extends CommonList<Student> {
 		System.out.println("Student not found.");
 	}
 
-	public Node<Student> searchStudentByName() {
-		if (isEmpty()) {
-			return null;
-		}
-		String name = inputName();
-		Node<Student> p = head;
-		while (p != null) {
-			if (p.data.getName().equals(name)) {
-				return p;
-			}
-			p = p.next;
-		}
-		return null;
-	}
 
 	public CourseList searchRegisteredCoursesByScode(DataManager manager) {
 		String scode = inputScode();
@@ -194,19 +152,18 @@ public class StudentList extends CommonList<Student> {
 		return courseList;
 	}
 
-	public Node<Student> searchByName(String sname) {
-		Node<Student> result = null;
+	public StudentList searchByName(String sname) {
+            StudentList list = new StudentList();		
 		if (!this.isEmpty()) {
 			Node<Student> p = head;
 			while (p != null) {
-				if (p.data.getName().equals(sname)) {
-					result = p;
-					break;
+				if (p.data.getName().toLowerCase().contains(sname.toLowerCase())) {
+					list.addLast(p.data);					
 				}
 				p = p.next;
 			}
 		}
-		return result;
+		return list.sort();
 	}
 
 	public void load() throws IOException {

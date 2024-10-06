@@ -94,12 +94,12 @@ public class CourseList extends CommonList<Course> {
         CourseList a = new CourseList();
         Node<Course> temp = this.head;
         while (temp != null) {
-            if (temp.data.getSname().equals(sname)) {
+            if (temp.data.getSname().toLowerCase().contains(sname.toLowerCase())) {
                 a.addLast(temp.data);
             }
             temp = temp.next;
         }
-        return a;
+        return a.sort();
     }
 
     public void save() throws IOException {
@@ -126,7 +126,7 @@ public class CourseList extends CommonList<Course> {
         }
     }
 
-    public CommonList<Course> sort() {
+    public CourseList sort() {
         CourseList a = new CourseList();
         if (this.head == null) {
             return a;
@@ -140,7 +140,7 @@ public class CourseList extends CommonList<Course> {
         while (p != null) {
             Node<Course> q = p.next;
             while (q != null) {
-                if (p.data.getCcode().compareTo(q.data.getCcode()) < 0) {
+                if (p.data.getCcode().compareTo(q.data.getCcode()) > 0) {
                     this.swap(p, q);
                 }
                 q = q.next;

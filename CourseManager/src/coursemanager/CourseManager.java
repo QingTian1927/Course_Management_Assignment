@@ -114,7 +114,8 @@ public class CourseManager {
 				courseList.deleteByCcode(ccodetoDelete);
 				break;
 			case "6":
-				courseList.sort();
+				CourseList sortedList = courseList.sort();
+                                sortedList.display();
 				System.out.println("Courses sorted by code successfully.");
 				break;
 			case "7":
@@ -163,7 +164,11 @@ public class CourseManager {
 			switch (choice) {
 			case "1":
 				//Student student = studentList.getStudentDetailsFromUser();
-				studentList.addStudent();				
+				Student newStudent = studentList.getStudentDetailsFromUser();	
+                                if(newStudent != null){
+                                    studentList.addLast(newStudent);
+                                    System.out.println("Add new student successfully");
+                                }
 				break;
 			case "2":
 				studentList.display();
@@ -196,15 +201,13 @@ public class CourseManager {
 				break;
 			case "6":
 				String studName = studentList.inputName();
-				Node<Student> foundStudentNode2 = studentList.searchByName(studName);
+				StudentList foundStudent = studentList.searchByName(studName);
 
-				if (foundStudentNode2 != null) {
-					// If the student is found, print its information using the toString method (so
-					// I
-					// want to declare data to be public)
-					System.out.println(foundStudentNode2.data.toString());
+				if (!foundStudent.isEmpty()) {
+                                    System.out.println("Students found: ");
+					foundStudent.display();
 				} else {
-					System.out.println("No course found with code: " + foundStudentNode2);
+					System.out.println("No student found with input name: " + studName);
 				}
 				break; 
 			case "7":

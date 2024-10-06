@@ -90,12 +90,11 @@ public class RegisterList extends CommonList<Register> {
     // Method to register a course for a student
     public void registerCourse(String ccode, String scode) {
         final Node<Course> courseNode = dataManager.getCourseList().searchByCcode(ccode); // Search for the course by course code
-        final Node<Student> studentNode = dataManager.getStudentList().searchByScode(scode); // Search for the student by student code (ID)
-
         if (courseNode == null) {
             System.out.println("Course does not exist.");
             return;
         }
+        final Node<Student> studentNode = dataManager.getStudentList().searchByScode(scode); // Search for the student by student code (ID)
 
         if (studentNode == null) {
             System.out.println("Student does not exist.");
