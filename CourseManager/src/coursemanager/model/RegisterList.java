@@ -175,11 +175,12 @@ public class RegisterList extends CommonList<Register> {
         }
 
         Node<Register> current = head;
+        System.out.printf("\n%-10s|%-10s|%-20s|%-5s|%s\n", "CourseID", "StudentID", "Registration Date", "Mark", "State");
         while (current != null) {
-            current.data.displayRegistrationInfo();
-            System.out.println("---------------------");
+            System.out.printf("%-10s|%-10s|%-20s|%-5.3f|%d\n", current.data.getCcode(), current.data.getScode(), current.data.getBdate(), current.data.getMark(), current.data.getState());
+            //System.out.println("---------------------");
             current = current.next;
-        }
+        }System.out.println();
     }
 
 }

@@ -155,12 +155,13 @@ public class CourseList extends CommonList<Course> {
             System.out.println("No course yet");
             return;
         }
-        Node<Course> temp = this.head;
+        Node<Course> temp = this.head;        
+        System.out.printf("\n%-10s|%-10s|%-30s|%-10s|%-10s|%-7s|%-12s|%s\n", "CourseID", "SubjectID", "Subject Name", "Semester", "Year", "Seats", "Registered", "Price");
         while (temp != null) {
-            temp.data.displayCourseInfo();
-            System.out.println("---------------------");
+            System.out.printf("%-10s|%-10s|%-30s|%-10s|%-10s|%-7d|%-12d|%.3f\n", temp.data.getCcode(), temp.data.getScode(), temp.data.getSname(), temp.data.getSemester(), temp.data.getYear(), temp.data.getSeats(), temp.data.getRegistered(), temp.data.getPrice());
+           // System.out.println("---------------------");
             temp = temp.next;
-        }
+        }System.out.println();
     }
 
     public void load() throws IOException {
