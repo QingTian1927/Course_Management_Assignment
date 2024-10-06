@@ -81,12 +81,12 @@ public class StudentList extends CommonList<Student> {
 	public void display() {
 		if (!this.isEmpty()) {
 			Node<Student> p = head;
-
+                        System.out.printf("\n%-15s|%-40s|%s\n", "StudentID", "Student's Name", "Student's Birth Year");
 			while (p != null) {
-				p.data.displayStudentInfo();
-				System.out.println("---------------------");
+				 System.out.printf("%-15s|%-40s|%s\n", p.data.getScode(), p.data.getName(), p.data.getByear());
+				//System.out.println("---------------------");
 				p = p.next;
-			}
+			}System.out.println();
 		}
 	}	
 
