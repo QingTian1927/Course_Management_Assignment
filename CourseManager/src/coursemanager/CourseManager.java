@@ -98,11 +98,14 @@ public class CourseManager {
                     System.out.print("Enter course code to search: ");
                     String ccodetoSearch = Validation.getString().toUpperCase();
                     Node<Course> foundCourseNode = courseList.searchByCcode(ccodetoSearch);
+                    CourseList courseFoundList = new CourseList();
 
                     if (foundCourseNode != null) {
                         // If the course is found, print its information using the toString method (so I
                         // want to declare data to be public)
-                        System.out.println(foundCourseNode.data.toString());
+                    	courseFoundList = courseList.findCourseList(foundCourseNode);
+                    	courseFoundList.display();
+                        
                     }
                     break;
                 case "5":
@@ -194,12 +197,14 @@ public class CourseManager {
                 case "4":
                     String scodetoSearch = studentList.inputScode().toUpperCase();
                     Node<Student> foundStudentNode1 = studentList.searchByScode(scodetoSearch);
+                    StudentList studentFoundList = new StudentList();
 
                     if (foundStudentNode1 != null) {
                         // If the student is found, print its information using the toString method (so
                         // I
                         // want to declare data to be public)
-                        foundStudentNode1.data.displayStudentInfo();
+                        studentFoundList = studentList.studentFoundList(foundStudentNode1);
+                        studentFoundList.display();
                     } else {
                         System.out.println("No course found with code: " + foundStudentNode1);
                     }

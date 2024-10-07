@@ -76,6 +76,12 @@ public class CourseList extends CommonList<Course> {
             this.head = this.getByIndex(k);
         }
     }
+    
+    public CourseList findCourseList(Node<Course> courseFound) {
+    	CourseList courseList = new CourseList();
+    	courseList.addLast(courseFound.data);
+    	return courseList.sort();
+    }
 
     public Node<Course> searchByCcode(String Ccode) {
         Node<Course> temp = this.head;
@@ -155,10 +161,12 @@ public class CourseList extends CommonList<Course> {
         }
 
         Node<Course> temp = this.head;
+        System.out.println("----------------------------------------------------------------------------------------------------------------------");
         System.out.printf(
                 "%-10s | %-10s | %-30s | %-10s | %-10s | %-7s | %-12s | %s\n",
                 "CourseID", "SubjectID", "Subject Name", "Semester", "Year", "Seats", "Registered", "Price"
         );
+        System.out.println("----------------------------------------------------------------------------------------------------------------------");
 
         while (temp != null) {
             System.out.printf(
@@ -180,6 +188,7 @@ public class CourseList extends CommonList<Course> {
 
     public void load() throws IOException {
         DataParser<Course> dataParser = (String data) -> {
+        	
             String[] properties = data.split(DataParser.PROPERTY_SEPARATOR);
             if (properties.length != 8) {
                 return null;
