@@ -12,9 +12,9 @@ public final class DataManager {
     private static RegisterList registerList = null;
     private static StudentList studentList = null;
 
-    public static final String COURSE_SAVE_FILE = "C:\\Users\\USER\\Documents\\GitHub\\Course_Management_Assignment\\CourseManager\\data\\courses.txt";
-    public static final String REGISTER_SAVE_FILE = "C:\\Users\\USER\\Documents\\GitHub\\Course_Management_Assignment\\CourseManager\\data\\registers.txt";
-    public static final String STUDENT_SAVE_FILE = "C:\\Users\\USER\\Documents\\GitHub\\Course_Management_Assignment\\CourseManager\\data\\students.txt";
+    public static final String COURSE_SAVE_FILE = "CourseManager/data/courses.txt";
+    public static final String REGISTER_SAVE_FILE = "CourseManager/data/registers.txt";
+    public static final String STUDENT_SAVE_FILE = "CourseManager/data/students.txt";
 
     private DataManager() {}
 
