@@ -126,11 +126,21 @@ public class CourseManager {
                     System.out.println("Course added successfully.");
                     break;
                 case "8":
+                    if (courseList.isEmpty()) {
+                        System.out.println("List is empty.");
+                        break;
+                    }
+
                     int k = Validation.getInteger("Enter a position to add after: ", "Your index must be lower than the numbre of course or in valid type.", 0, courseList.size() - 1);
                     Course afterCourse = courseList.getCourseDetailsFromUser();
                     courseList.insertAfterIndex(k, afterCourse);
                     break;
                 case "9":
+                    if (courseList.isEmpty()) {
+                        System.out.println("List is empty.");
+                        break;
+                    }
+
                     int deletePosition = Validation.getInteger("Enter a position to delete to: ", "Position must be lower than the number of course in valid type.", 0, courseList.size() - 1);
                     courseList.deleteToIndex(deletePosition);
                     System.out.println("Course deleted successfully.");
