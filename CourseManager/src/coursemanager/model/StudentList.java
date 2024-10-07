@@ -82,10 +82,12 @@ public class StudentList extends CommonList<Student> {
     public void display() {
         if (!this.isEmpty()) {
             Node<Student> p = head;
+            System.out.println("---------------------------------------------------------------------------------");
             System.out.printf(
                     "%-15s | %-40s | %s\n",
                     "StudentID", "Student's Name", "Student's Birth Year"
             );
+            System.out.println("---------------------------------------------------------------------------------");
 
             while (p != null) {
                 System.out.printf(
@@ -96,6 +98,12 @@ public class StudentList extends CommonList<Student> {
                 p = p.next;
             }
         }
+    }
+    
+    public StudentList studentFoundList(Node<Student> studentFound) {
+    	StudentList studentList = new StudentList();
+    	studentList.addLast(studentFound.data);
+    	return studentList.sort();
     }
 
     public Node<Student> searchByScode(String scode) {

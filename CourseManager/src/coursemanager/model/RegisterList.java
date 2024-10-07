@@ -76,23 +76,11 @@ public class RegisterList extends CommonList<Register> {
         this.saveFile(new File(DataManager.REGISTER_SAVE_FILE), Register::toDataString);
     }
 
-    public Node<Register> findRegisteredStudent(String scode) {
+    public Node<Register> findRegistration(String scode, String ccode) {
         Node<Register> current = head;
 
         while (current != null) {
-            if (current.data.getScode().equals(scode)) {
-                return current;
-            }
-            current = current.next;
-        }
-        return null;
-    }
-
-    public Node<Register> findRegisteredCourse(String ccode) {
-        Node<Register> current = head;
-
-        while (current != null) {
-            if (current.data.getCcode().equals(ccode)) {
+            if (current.data.getCcode().equals(ccode) && current.data.getCcode().equals(scode)) {
                 return current;
             }
             current = current.next;
@@ -105,7 +93,7 @@ public class RegisterList extends CommonList<Register> {
         Node<Course> courseNode = dataManager.getCourseList().searchByCcode(ccode); // Search for the course by course code
         Node<Student> studentNode = dataManager.getStudentList().searchByScode(scode); // Search for the student by student code (ID)
 
-        if (findRegisteredCourse(ccode) != null && findRegisteredStudent(scode) != null) {
+        if (findRegistration(scode, ccode) != null) {
             System.out.println("Studen " + scode + " has already registered for the course " + ccode);
             return;
         }
@@ -196,14 +184,16 @@ public class RegisterList extends CommonList<Register> {
         }
 
         Node<Register> current = head;
+        System.out.println("--------------------------------------------------------------");
         System.out.printf(
                 "%-10s | %-10s | %-20s | %-5s | %s\n",
                 "CourseID", "StudentID", "Registration Date", "Mark", "State"
         );
+        System.out.println("--------------------------------------------------------------");
 
         while (current != null) {
             System.out.printf(
-                    "%-10s | %-10s | %-20s | %-10.3f | %d\n",
+                    "%-10s | %-10s | %-20s | %-5.3f | %d\n",
                     current.data.getCcode(),
                     current.data.getScode(),
                     current.data.getBdate(),
