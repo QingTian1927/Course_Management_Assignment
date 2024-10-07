@@ -103,7 +103,7 @@ public class Course {
     }
 
     public void setRegistered(int registered) {
-        if (Validation.isNonNegative(registered)) {
+        if (!Validation.isNonNegative(registered)) {
             throw new IllegalArgumentException();
         }
         if (!isValidRegistered(this.seats, registered)) {

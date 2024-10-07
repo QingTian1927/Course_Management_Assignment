@@ -121,9 +121,25 @@ public class StudentList extends CommonList<Student> {
         return result;
     }
 
+    public static void resetRegister(String scode, DataManager manager){
+        RegisterList registerList = manager.getRegisterList();
+        CourseList courseList = manager.getCourseList();
+
+        for(Node<Register> p = registerList.head; p != null; p = p.next){
+            if(p.data.getScode().equals(scode)){
+                for(Node<Course> q = courseList.head; q != null; q = q.next) {
+                    if(q.data.getCcode().equals(p.data.getCcode())){
+                        q.data.setRegistered(q.data.getRegistered()-1);
+                    }
+                }
+            }
+        }
+    }
+
     public void deleteByScode(DataManager dataManager) {
         String scode = inputScode().toUpperCase();
         if (searchByScode(scode) != null) {
+            resetRegister(scode, dataManager);
             if (head.data.getScode().equals(scode)) {
                 Node<Student> p = head;
                 head = head.next;
