@@ -122,6 +122,7 @@ public class StudentList extends CommonList<Student> {
     }
 
     public void deleteByScode() {
+    public void deleteByScode(DataManager dataManager) {
         String scode = inputScode().toUpperCase();
         if (searchByScode(scode) != null) {
             if (head.data.getScode().equals(scode)) {
@@ -129,6 +130,7 @@ public class StudentList extends CommonList<Student> {
                 head = head.next;
                 p.next = null;
                 System.out.println("Student Code deleted successfully.");
+                dataManager.getRegisterList().deleteRegister(scode);
                 return;
             }
             Node<Student> p = head;
@@ -138,12 +140,14 @@ public class StudentList extends CommonList<Student> {
                     p.next = p.next.next;
                     temp.next = null;
                     System.out.println("Student Code deleted successfully.");
+                    dataManager.getRegisterList().deleteRegister(scode);
                     return;
                 }
                 p = p.next;
             }
         }
         System.out.println("Student not found.");
+        
     }
 
 

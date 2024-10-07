@@ -212,6 +212,7 @@ public class CourseManager {
                 case "5":
                     studentList.deleteByScode();
 
+                    studentList.deleteByScode(dataManager);
                     break;
                 case "6":
                     String studName = studentList.inputName();
