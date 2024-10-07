@@ -219,4 +219,16 @@ public class RegisterList extends CommonList<Register> {
             current = current.next;
         }
     }
+    
+    public void deleteRegister(String scode){
+        Node<Register> current = head;
+
+        while (current != null) {
+            if (current.data.getScode().equals(scode)) {
+                this.delete(current);
+            }
+            current = current.next;
+        }
+        return;
+    }
 }
