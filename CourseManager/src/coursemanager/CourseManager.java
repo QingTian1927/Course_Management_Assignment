@@ -1,12 +1,7 @@
 package coursemanager;
 
 import coursemanager.io.DataManager;
-import coursemanager.model.Course;
-import coursemanager.model.CourseList;
-import coursemanager.model.Node;
-import coursemanager.model.RegisterList;
-import coursemanager.model.Student;
-import coursemanager.model.StudentList;
+import coursemanager.model.*;
 import coursemanager.ui.Menu;
 import coursemanager.util.Validation;
 
@@ -149,7 +144,7 @@ public class CourseManager {
                     System.out.println("Course deleted successfully.");
                     break;
                 case "10":
-                    System.out.print("Enter subject name to search:");
+                    System.out.print("Enter subject name to search: ");
                     String subjectName = Validation.getString();
                     CourseList searchResults = courseList.searchByName(subjectName);
                     if (!searchResults.isEmpty()) {
@@ -276,9 +271,9 @@ public class CourseManager {
                     }
                     break;
                 case "4":
-                    registerList.sort();
+                    CommonList<Register> sortedList = (CommonList<Register>) registerList.sort();
                     System.out.println("After Sorted: ");
-                    registerList.display();
+                    sortedList.display();
                     break;
                 case "5":
                     System.out.print("Enter course code to update mark: ");
