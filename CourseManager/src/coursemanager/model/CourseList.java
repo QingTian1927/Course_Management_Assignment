@@ -2,22 +2,20 @@ package coursemanager.model;
 
 import coursemanager.io.DataManager;
 import coursemanager.io.DataParser;
-import coursemanager.io.DataWriter;
 import coursemanager.util.Validation;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class CourseList extends CommonList<Course> {
     public Course getCourseDetailsFromUser() {
-        System.out.println("Please enter the following course details:");                      
-            System.out.print("Enter course code: ");
-            String ccode = Validation.getString().toUpperCase();
-            if(searchByCcode(ccode) != null){               
+        System.out.println("Please enter the following course details:");
+        System.out.print("Enter course code: ");
+        String ccode = Validation.getString().toUpperCase();
+        if (searchByCcode(ccode) != null) {
             System.out.println("this course has been registered");
-                return null;
-            }
+            return null;
+        }
 
         System.out.print("Enter course short code: ");
         String scode = Validation.getString();
@@ -50,7 +48,7 @@ public class CourseList extends CommonList<Course> {
         }
         super.addLast(course);
     }
-    
+
     public void addFirst(Course course) {
         if (course == null) {
             return;
@@ -107,22 +105,22 @@ public class CourseList extends CommonList<Course> {
     }
 
     public void deleteByCcode(String Ccode) {
-    	if (this.head == null) {
+        if (this.head == null) {
             System.out.println("No course to delete.");
-            return; 
+            return;
         }
         Node<Course> courseFound = this.searchByCcode(Ccode);
-        
+
         if (courseFound == null) {
-           System.out.println("Course not found.");
-           return;
+            System.out.println("Course not found.");
+            return;
         }
-        
-        if(courseFound.data.getRegistered() == 0) {
-        	this.delete(courseFound);
-        	System.out.println("Course deleted successfully.");
+
+        if (courseFound.data.getRegistered() == 0) {
+            this.delete(courseFound);
+            System.out.println("Course deleted successfully.");
         } else {
-        	System.out.println("This course has been registered and cannot be deleted.");
+            System.out.println("This course has been registered and cannot be deleted.");
         }
     }
 
@@ -155,13 +153,29 @@ public class CourseList extends CommonList<Course> {
             System.out.println("No course yet");
             return;
         }
-        Node<Course> temp = this.head;        
-        System.out.printf("\n%-10s|%-10s|%-30s|%-10s|%-10s|%-7s|%-12s|%s\n", "CourseID", "SubjectID", "Subject Name", "Semester", "Year", "Seats", "Registered", "Price");
+
+        Node<Course> temp = this.head;
+        System.out.printf(
+                "%-10s | %-10s | %-30s | %-10s | %-10s | %-7s | %-12s | %s\n",
+                "CourseID", "SubjectID", "Subject Name", "Semester", "Year", "Seats", "Registered", "Price"
+        );
+
         while (temp != null) {
-            System.out.printf("%-10s|%-10s|%-30s|%-10s|%-10s|%-7d|%-12d|%.3f\n", temp.data.getCcode(), temp.data.getScode(), temp.data.getSname(), temp.data.getSemester(), temp.data.getYear(), temp.data.getSeats(), temp.data.getRegistered(), temp.data.getPrice());
-           // System.out.println("---------------------");
+            System.out.printf(
+                    "%-10s | %-10s | %-30s | %-10s | %-10s | %-7d | %-12d | %.3f\n",
+                    temp.data.getCcode(),
+                    temp.data.getScode(),
+                    temp.data.getSname(),
+                    temp.data.getSemester(),
+                    temp.data.getYear(),
+                    temp.data.getSeats(),
+                    temp.data.getRegistered(),
+                    temp.data.getPrice()
+            );
+
+            // System.out.println("---------------------");
             temp = temp.next;
-        }System.out.println();
+        }
     }
 
     public void load() throws IOException {
@@ -170,7 +184,7 @@ public class CourseList extends CommonList<Course> {
             if (properties.length != 8) {
                 return null;
             }
-            
+
             String ccode = properties[0].trim();
             String scode = properties[1].trim();
             String sname = properties[2].trim();
@@ -179,7 +193,7 @@ public class CourseList extends CommonList<Course> {
             int seats = Validation.parseInt(properties[5].trim());
             int registered = Validation.parseInt(properties[6].trim());
             double price = Validation.parseDouble(properties[7].trim());
-            
+
             return new Course(ccode, scode, sname, semester, year, seats, registered, price);
         };
 

@@ -38,32 +38,33 @@ public class RegisterList extends CommonList<Register> {
             if (properties.length != 5) {
                 return null;
             }
-            
+
             String ccode = properties[0].trim();
             String scode = properties[1].trim();
-            
+
             LocalDate bdate;
             try {
-                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(REGISTER_DATE_FORMAT);;
+                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(REGISTER_DATE_FORMAT);
+                ;
                 bdate = LocalDate.parse(properties[2].trim(), dateFormat);
             } catch (DateTimeParseException e) {
                 System.out.println("Invalid date format: " + properties[2]);
                 return null;
             }
-            
+
             String markString = properties[3].trim().replace(",", ".");
             double mark = Double.parseDouble(markString);
             if (mark < 0 || mark > 10) {
                 System.out.println("Invalid mark: " + properties[3]);
                 return null;
             }
-            
+
             int state = Integer.parseInt(properties[4].trim());
             if (!Validation.isBooleanInt(state)) {
                 System.out.println("Invalid state: " + properties[4]);
                 return null;
             }
-            
+
             return new Register(ccode, scode, bdate, mark, state);
         };
 
@@ -86,7 +87,7 @@ public class RegisterList extends CommonList<Register> {
         }
         return null;
     }
-    
+
     public Node<Register> findRegisteredCourse(String ccode) {
         Node<Register> current = head;
 
@@ -101,13 +102,12 @@ public class RegisterList extends CommonList<Register> {
 
     // Method to register a course for a student
     public void registerCourse(String ccode, String scode) {
-        final Node<Course> courseNode = dataManager.getCourseList().searchByCcode(ccode); // Search for the course by course code
+        Node<Course> courseNode = dataManager.getCourseList().searchByCcode(ccode); // Search for the course by course code
+        Node<Student> studentNode = dataManager.getStudentList().searchByScode(scode); // Search for the student by student code (ID)
 
-        final Node<Student> studentNode = dataManager.getStudentList().searchByScode(scode); // Search for the student by student code (ID)
-        
-        if(findRegisteredCourse(ccode) != null && findRegisteredStudent(scode) != null) {
-        	System.out.println("Studen " + scode + " has already registered for the course " + ccode);
-        	return;
+        if (findRegisteredCourse(ccode) != null && findRegisteredStudent(scode) != null) {
+            System.out.println("Studen " + scode + " has already registered for the course " + ccode);
+            return;
         }
 
 
@@ -115,7 +115,7 @@ public class RegisterList extends CommonList<Register> {
             System.out.println("Course does not exist.");
             return;
         }
-        final Node<Student> studentNode = dataManager.getStudentList().searchByScode(scode); // Search for the student by student code (ID)
+        studentNode = dataManager.getStudentList().searchByScode(scode); // Search for the student by student code (ID)
 
         if (studentNode == null) {
             System.out.println("Student does not exist.");
@@ -196,12 +196,23 @@ public class RegisterList extends CommonList<Register> {
         }
 
         Node<Register> current = head;
-        System.out.printf("\n%-10s|%-10s|%-20s|%-5s|%s\n", "CourseID", "StudentID", "Registration Date", "Mark", "State");
+        System.out.printf(
+                "%-10s | %-10s | %-20s | %-5s | %s\n",
+                "CourseID", "StudentID", "Registration Date", "Mark", "State"
+        );
+
         while (current != null) {
-            System.out.printf("%-10s|%-10s|%-20s|%-5.3f|%d\n", current.data.getCcode(), current.data.getScode(), current.data.getBdate(), current.data.getMark(), current.data.getState());
+            System.out.printf(
+                    "%-10s | %-10s | %-20s | %-10.3f | %d\n",
+                    current.data.getCcode(),
+                    current.data.getScode(),
+                    current.data.getBdate(),
+                    current.data.getMark(),
+                    current.data.getState()
+            );
+
             //System.out.println("---------------------");
             current = current.next;
-        }System.out.println();
+        }
     }
-
 }
