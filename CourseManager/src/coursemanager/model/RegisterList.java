@@ -80,7 +80,7 @@ public class RegisterList extends CommonList<Register> {
         Node<Register> current = head;
 
         while (current != null) {
-            if (current.data.getCcode().equals(ccode) && current.data.getCcode().equals(scode)) {
+            if (current.data.getCcode().equals(ccode) && current.data.getScode().equals(scode)) {
                 return current;
             }
             current = current.next;
