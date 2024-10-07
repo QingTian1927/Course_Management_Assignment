@@ -121,7 +121,6 @@ public class StudentList extends CommonList<Student> {
         return result;
     }
 
-    public void deleteByScode() {
     public void deleteByScode(DataManager dataManager) {
         String scode = inputScode().toUpperCase();
         if (searchByScode(scode) != null) {

@@ -210,8 +210,6 @@ public class CourseManager {
                     }
                     break;
                 case "5":
-                    studentList.deleteByScode();
-
                     studentList.deleteByScode(dataManager);
                     break;
                 case "6":

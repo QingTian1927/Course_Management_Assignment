@@ -121,7 +121,10 @@ public class CourseList extends CommonList<Course> {
             System.out.println("Course not found.");
             return;
         }
-
+        if (courseFound.data.getRegistered() > 0){
+            System.out.println("Course still has students");
+            return;
+        }
         if (courseFound.data.getRegistered() == 0) {
             this.delete(courseFound);
             System.out.println("Course deleted successfully.");

@@ -76,18 +76,6 @@ public class RegisterList extends CommonList<Register> {
         this.saveFile(new File(DataManager.REGISTER_SAVE_FILE), Register::toDataString);
     }
 
-    public Node<Register> findRegistration(String scode, String ccode) {
-        Node<Register> current = head;
-
-        while (current != null) {
-            if (current.data.getCcode().equals(ccode) && current.data.getScode().equals(scode)) {
-                return current;
-            }
-            current = current.next;
-        }
-        return null;
-    }
-
     public Node<Register> findRegistration(String ccode, String scode) {
         Node<Register> current = head;
 
@@ -109,7 +97,7 @@ public class RegisterList extends CommonList<Register> {
             return;
         }
 
-
+        ccode = ccode.trim();
         Node<Course> courseNode = dataManager.getCourseList().searchByCcode(ccode); // Search for the course by course code
         Node<Student> studentNode = dataManager.getStudentList().searchByScode(scode); // Search for the student by student code (ID)
 
@@ -155,7 +143,7 @@ public class RegisterList extends CommonList<Register> {
         }
         System.out.println("Registration not found. Update mark failed!");
     }
-
+    
     @Override
     public CommonList<Register> sort() {
         if (head == null) {
